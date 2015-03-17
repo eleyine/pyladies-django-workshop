@@ -1,0 +1,33 @@
+.pane {
+  width: 50%;
+  display: block;
+  float: left;
+  vertical-align: middle;
+  height: 100%; }
+
+#setupTools ul {
+  list-style: none;
+  background: #eee;
+  font-size: 0.8em;
+  padding: 5px 20px;
+  border-radius: 5px; }
+  #setupTools ul li {
+    display: inline-block; }
+    #setupTools ul li.current-fragment code {
+      color: red; }
+    #setupTools ul li.fragment {
+      visibility: visible;
+      opacity: 1; }
+      #setupTools ul li.fragment:before {
+        content: "& ";
+        opacity: 1 !important; }
+      #setupTools ul li.fragment:first-child:before {
+        display: none; }
+      #setupTools ul li.fragment code {
+        opacity: 0.3; }
+      #setupTools ul li.fragment.visible code {
+        opacity: 1; }
+#setupTools .pane-1 {
+  width: 100%; }
+#setupTools .pane-2 {
+  width: 100%; }

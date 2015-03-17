@@ -32,7 +32,8 @@ module.exports = function(grunt) {
 		sass: {
 			core: {
 				files: {
-					'css/reveal.css': 'css/reveal.scss',
+					'css/reveal.css': 'css/reveal.scss', 
+					'css/style.css': 'css/style.scss',
 				}
 			},
 			themes: {
@@ -88,7 +89,7 @@ module.exports = function(grunt) {
 					exports: false
 				}
 			},
-			files: [ 'Gruntfile.js', 'js/reveal.js' ]
+			files: [ 'Gruntfile.js', 'js/reveal.js', 'js/app.js']
 		},
 
 		connect: {
@@ -118,7 +119,7 @@ module.exports = function(grunt) {
                 livereload: true
             },
 			js: {
-				files: [ 'Gruntfile.js', 'js/reveal.js' ],
+				files: [ 'Gruntfile.js', 'js/reveal.js' , 'js/app.js', 'js/script.js'],
 				tasks: 'js'
 			},
 			theme: {
@@ -126,7 +127,7 @@ module.exports = function(grunt) {
 				tasks: 'css-themes'
 			},
 			css: {
-				files: [ 'css/reveal.scss' ],
+				files: [ 'css/reveal.scss', 'css/style.scss' ],
 				tasks: 'css-core'
 			},
             html: {

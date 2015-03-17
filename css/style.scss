@@ -1,0 +1,51 @@
+.pane {
+    width: 50%;
+    display: block;
+    float:left;
+    vertical-align: middle;
+    height: 100%;
+}
+
+#setupTools {
+    ul {
+        list-style: none;
+        background: #eee;
+        font-size: 0.8em;
+        padding: 5px 20px;
+        border-radius: 5px;
+
+        li {
+            display: inline-block;
+            &.current-fragment code {
+                color: red;
+            }
+            &.fragment {
+                visibility: visible;
+                opacity: 1;
+
+                &:before {
+                    content: "& ";
+                    opacity: 1 !important; 
+                }
+
+                &:first-child:before {
+                    display: none;
+                }
+
+                code {
+                    opacity: 0.3;
+                }
+
+                &.visible code {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    .pane-1 {
+        width:100%;
+    }
+    .pane-2 {
+        width:100%;
+    }
+}
