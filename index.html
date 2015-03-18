@@ -11,8 +11,10 @@
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/white.css" id="theme">
 		<link rel="stylesheet" href="bower_components/angular/angular-csp.css">
+		<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link href='http://fonts.googleapis.com/css?family=Merriweather+Sans:400,700,300,800' rel='stylesheet' type='text/css'>
 		<!-- Printing and PDF exports -->
 		<script>
 			var link = document.createElement( 'link' );
@@ -30,50 +32,56 @@
 		<div class="reveal">
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<!-- <slide> Title Slide -->
+				<!--				
 				<section>
+				<div layout="row">
+				  <div flex="66" flex-sm="33">
+				    I flex to one-third of the space on mobile, and two-thirds on other devices.
+				  </div>
+				  <div flex="33" flex-sm="66">
+				    I flex to two-thirds of the space on mobile, and one-third on other devices.
+				  </div>
+				</div>
+				</section>
+				-->
+				<!-- <slide> Title Slide -->
+				<section data-background="#0C4B33" class="center">
 					<h1>Django</h1>
-					<h3>A Pyladies Montreal Workshop</h3>
-					<p>
-						<small><a href="http://hakim.se">Eleyine Zarour</a> / <a href="http://twitter.com/eleyine">@eleyine</a></small>
+					<h3 class="djangoGreen">A Pyladies Montreal Workshop</h3>
+					<p >
+						<small><a class="white" href="http://hakim.se">Eleyine Zarour</a> / <a class="white" href="http://twitter.com/eleyine">@eleyine</a></small>
 					</p>
 				</section>
 				<!-- <slide> Title Slide -->
-				<section>
+				<section data-background="#ffff8d" class="center">
 					<h1>Get the slides</h1>
 					<h3>
-						<small><a href="slides.eleyine.github.io">slides.eleyine.github.io</a></small>
+					<small><a href="slides.eleyine.github.io">slides.eleyine.github.io</a></small>
 					</h3>
 				</section>
 				<!-- <slide> Today We Will-->
-				<section>
-					<div class="github"
-						data-github-pre="boilerplate"
-					data-github-post="models1"></div>
+				<section class="today">
 					<h2>Today, we will...</h2>
-					<ul>
+					<ol>
 						<li>Build a simplified <a href="https://keep.google.com">Google Keep</a> clone</li>
 						<li>Describe a feature we need</li>
 						<li>Implement a feature together</li>
 						<li>Review our example solution</li>
 						<li>Use best practices and nifty tools</li>
 						<li>Ask a bunch of questions!</li>
-					</ul>
+					</ol>
 				</section>
 				<!-- <slide> Today We Will Not -->
 				<section>
-					<div class="github"
-						data-github-pre="boilerplate"
-					data-github-post="models1"></div>
 					<h2>Today, we will not...</h2>
 					<ul>
-						<li> worry about the app's general appearance
+						<li>Worry about the app's general appearance
 							<ul>
 								<li>CSS, Javascript UI</li>
 								<li>(I'll take care of that)</li>
 							</ul>
 						</li>
-						<li>learn basic Python
+						<li>Learn basic Python
 							<ul>
 								<li>control flow, namespaces, classes</li>
 								<li>(but ask me to clarify anything as we go)</li>
@@ -82,125 +90,977 @@
 					</ul>
 				</section>
 				<!-- <slide> By the end of this workshop -->
-				<section>
-					<div class="github"
-						data-github-pre="boilerplate"
-					data-github-post="models1"></div>
+				<section class="center">
 					<h1>By the end of this workshop...</h1>
 				</section>
-				<!-- <slide> Todo -->
-				<section>
-					<div class="github"
-						data-github-pre="boilerplate"
-					data-github-post="models1"></div>
-					<h3>Milestones</h3>
-
-				</section>
-				<!-- <section>
-				<ul>
-				    <li>Frafment test</li>
-				    <li class="fragment">Fragment test 2</li>
-				    <li></li>
-				    <li></li>
-				</ul>
-				</section> -->
-				<!-- <slide> Setup-->
-				<section>
-					<section>
-					<div class="github"
-						data-github-pre="boilerplate"
-					data-github-post="models1"></div>
-					<h2>Setup</h2>
-					</section>
-
-					<section ng-controller="PaneController" ng-init="selection=git" >
-				    <h3 class="tools">Download and Install</h3>
-				    <div class="pane-container" id="setupTools" >
-					<div class="pane pane-1">
-						<ul>
-						    <li class="fragment visible current-fragment" data-selection="git">
-						    	<code>git</code>
-						    </li>
-						    <li class="fragment" data-selection="pip">
-						    	<code>pip</code>
-						    </li>
-						    <li class="fragment" data-selection="npm">
-						    	<code>virtualenvwrapper</code>
-						    </li>
-						    <li class="fragment" data-selection="npm">
-						    	<code>npm</code>
-						    </li>
-						    <li class="fragment" data-selection="bower">
-						    	<code>bower</code>
-						    </li>
-						</ul>
+				<section class="milestones">
+					<h3>Agenda</h3>
+					<div class="pane-container">
+						<div class="pane pane-1">
+							<ol>
+								<li><h5>The Basics</h5></li>
+							    <li class="active">Setup</li>
+							    <li class="todo">Django Overview</li>
+							    <li class="todo">Models</li>
+							    <li class="todo">Views</li>
+							    <li class="todo">Templates</li>
+							</ol>
+						</div>
+						<div class="pane pane-2">
+							<ol>
+								<li><h5>Advanced Topics</h5></li>
+							    <li class="todo">Generic Views</li>
+							    <li class="todo">Signals</li>
+							    <li class="todo">Forms</li>
+							    <li class="todo">Django REST Framework</li>
+							    <li class="todo">Special Mentions</li>
+							</ol>
+						</div>
 					</div>
-					<div width="50%" class="pane pane-2" ng-switch on="selection">
-						<div ng-switch-when="git"> 
-							<p>
-								<code>git</code>: distributed revision control
-							</p> 
-							<p><a href="http://git-scm.com">http://git-scm.com</a></p>
-							<p>
-								Download this tutorial's boilerplate:
-								<pre><code data-trim class="bash">
+				</section>
+				<!-- <slide> Setup -->
+					<section data-background="#8c9eff" class="center lightPurple">
+						<h2>Detailed Instructions</h2>
+						<div class="break"></div>
+						<b><a href="https://github.com/eleyine/pyladies-django-workshop">github.com/eleyine/pyladies-django-workshop</a></b>
+					</section>
+					<section>
+						<h3 class="tools"><code>git</code>: Distributed Revision Control</h3>
+						<div class="pane-container setupTools">
+							<div class="pane pane-1">
+								<ul>
+									<li><code class="red-text active">git</code></li>
+									<li><code>pip</code></li>
+									<li><code>virtualenvwrapper</code></li>
+									<li><code>npm</code></li>
+									<li><code>bower</code></li>
+								</ul>
+							</div> <!--/pane-1 -->
+							<div class="pane pane-2">
+								<p><a href="http://git-scm.com">http://git-scm.com</a></p>
+								<p>
+									Normally, to start a Django project:
+									<pre>
+										<code class="bash" data-trim>
 $ cd {WORKING_DIR}
+$ django-admin.py startproject mysite
+										</code>
+									</pre>
+								</p>
+								<p>
+									Today however, we'll use a boilerplate project
+									<pre>
+										<code class="bash" data-trim>
+$ cd YourFavouriteDirectory
 $ git clone eleyine.github.com/pyladies-django-workshop
 $ cd pyladies-django-workshop
 # rewind to the start of the project
 $ git reset --hard boilerplate
-								</code></pre>
-							</p>
+										</code>
+									</pre>
+								</p>
+							</div> <!--/pane-2 -->
 						</div>
-						<div ng-switch-when="pip">
-						<p>
-							<code>pip</code>: Python package installer
-							<pre><code data-trim class="bash">
-# Installs {package} into site-packages
+					</section>
+					<section>
+						<h3 class="tools"><code>pip</code>: Python Package Manager</h3>
+						<div class="pane-container setupTools">
+							<div class="pane pane-1">
+								<ul>
+									<li><code>git</code></li>
+									<li><code class="red-text active">pip</code></li>
+									<li><code>virtualenvwrapper</code></li>
+									<li><code>npm</code></li>
+									<li><code>bower</code></li>
+								</ul>
+							</div> <!--/pane-1 -->
+							<div class="pane pane-2">
+								<p>Installs and manages software packages written in Python</p>
+								<p><a href="https://pip.pypa.io">https://pip.pypa.io</a></p>
+								<p>
+									<pre>
+										<code data-trim class="bash">
+# Installs package into site-packages
 # directory of your 'default' Python lib
-$ pip install {package}
-							</code></pre>
-							..but different programs may need different versions of packages.
-						</p>
+$ pip install SomePackage
+  [...]
+  Successfully installed SomePackage
+										</code>
+									</pre>
+								</p>
+								<p class="fragment">
+								..but different programs may need different versions of packages.
+								</p>
+							</div> <!--/pane-2 -->
 						</div>
-						<div ng-switch-when="npm"> Npm </div>
-						<div ng-switch-when="bower"> Bower </div>
-						<div ng-switch-default></div>
-					</div>
+					</section>
+					<section>
+						<h3 class="tools"><code>virtualenvwrapper</code>: Virtual Environment Manager</h3>
+						<div class="pane-container setupTools">
+							<div class="pane pane-1">
+								<ul>
+									<li><code>git</code></li>
+									<li><code>pip</code></li>
+									<li><code class="red-text active">virtualenvwrapper</code></li>
+									<li><code>npm</code></li>
+									<li><code>bower</code></li>
+								</ul>
+							</div> <!--/pane-1 -->
+							<div class="pane pane-2">
+								<p class="medium-size">Wrappers for creating and deleting <code>virtualenv</code>s i.e. <b>isolated</b> Python environments, without introducing conflicts in dependencies between projects.</p>
+								<p><a href="https://virtualenvwrapper.readthedocs.org">https://virtualenvwrapper.readthedocs.org</a></p>
+								<p>
+									<pre>
+										<code data-trim class="bash">
+# in pyladies-django-workshop
+$ mkvirtualenv pyladies-django
+$ workon pyladies-django
+(pyladies-django) $ pip install -r requirements.txt
+(pyladies-django) $ pip list
+(pyladies-django) $ python
+>>> import django
+										</code>
+									</pre>
+								</p>
+							</div> <!--/pane-2 -->
+						</div>
+					</section>
+					<section>
+						<h3 class="tools"><code>npm</code>: Node package manager</h3>
+						<div class="pane-container setupTools">
+							<div class="pane pane-1">
+								<ul>
+									<li><code>git</code></li>
+									<li><code>pip</code></li>
+									<li><code>virtualenvwrapper</code></li>
+									<li><code class="red-text active">npm</code></li>
+									<li><code>bower</code></li>
+								</ul>
+							</div> <!--/pane-1 -->
+							<div class="pane pane-2">
+								<p><code>npm</code>is a package manager for Javascript</p>
+								<p class="medium-size"><code>angular</code>, <code>less</code>, <code>grunt</code>, <code>gulp</code>, <code>coffee-script</code> and many more!</p>
+								<p><a href="https://www.npmjs.com/">https://www.npmjs.com/</a></p>
+
+								<p>We will need it for the following installation step. </p> 
+									<pre>
+										<code data-trim class="bash">
+# in pyladies-django-workshop
+$ npm install
+										</code>
+									</pre>
+								</p>
+							</div> <!--/pane-2 -->
+						</div>
+					</section>
+					<section>
+						<h3 class="tools"><code>bower</code>: Package Manager for the web</h3>
+						<div class="pane-container setupTools">
+							<div class="pane pane-1">
+								<ul>
+									<li><code>git</code></li>
+									<li><code>pip</code></li>
+									<li><code>virtualenvwrapper</code></li>
+									<li><code>npm</code></li>
+									<li><code class="red-text active">bower</code></li>
+								</ul>
+							</div> <!--/pane-1 -->
+							<div class="pane pane-2">
+								<p class="medium-size"><code>bower</code> finds, downloads, installs and saves <b>frameworks, libraries, assets and utilities</b> for front-end development using a <b>flat dependency</b> tree.</p>
+								<p><a href="http://bower.io/">http://bower.io/</a></p>
+
+								<p> </p> 
+									<pre>
+										<code data-trim class="bash">
+# in pyladies-django-workshop
+$ sudo npm install -g bower
+# install packages in manifest file 'bower.json'
+$ bower install
+$ bower list
+										</code>
+									</pre>
+								</p>
+							</div> <!--/pane-2 -->
+						</div>
+					</section>
+					<section class="center">
+						<h2>Test the boilerplate</h2>
+						<pre>
+							<code class="bash">
+# in pyladies-django-workshop
+(pyladies-django) $ python manage.py migrate
+(pyladies-django) $ python manage.py runserver
+							</code>
+						</pre>
+						<p class="fragment">Visit <a href="http://localhost:8000/">http://localhost:8000/</a>, what do you see?</p>
+					</section>
+				<!-- <slide> Milestones -->
+				<section class="milestones">
+					<h3>Agenda</h3>
+					<div class="pane-container">
+						<div class="pane pane-1">
+							<ol>
+								<li><h5>The Basics</h5></li>
+							    <li>Setup</li>
+							    <li class="active">Django Overview</li>
+							    <li class="todo">Models</li>
+							    <li class="todo">Views</li>
+							    <li class="todo">Templates</li>
+							</ol>
+						</div>
+						<div class="pane pane-2">
+							<ol>
+								<li><h5>Advanced Topics</h5></li>
+							    <li class="todo">Generic Views</li>
+							    <li class="todo">Signals</li>
+							    <li class="todo">Forms</li>
+							    <li class="todo">Django REST Framework</li>
+							    <li class="todo">Special Mentions</li>
+							</ol>
+						</div>
 					</div>
 					</section>
+				<!-- <slide> Django -->
+					<!-- <section>
+						<h1>Django Overview</h1>
+					</section> -->
+					<section class="djangoSites">
+						<img src="img/djangosites/nasa.png"/>
+						<img class="letters" src="img/djangosites/disqus.png"/>
+						<img src="img/djangosites/instagram.png"/>
+						</br>
+
+						
+						<img class="letters" src="img/djangosites/theguardian.jpg"/>
+						<img src="img/djangosites/mozilla.png"/>
+
+						<img class="letters" src="img/djangosites/pinterest.png" style="margin-bottom: 1.7em;"/>
+
+						<p class="fragment">
+							What do all of these have in common?
+						</p>
+					</section>
+					<section data-background="img/djangodesktop-1280x1024.jpg">
+					</section>
+
+					<section>
+						<h3>The Zen of Python</h3>
+						<pre>
+							<code class="python" data-trim>
+>>> import this
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h3>Django at a Glance</h3>
+						<ul>
+						    <li><b>Rapid</b> development and <b>clean</b>, pragmatic design.</li>
+						    <li>Focus on automation and <b>Don't Repeat Yourself (DRY)</b></li>
+						    <li>Thriving <b>ecosystem</b></li>
+						    <li><b>Object-Relational Mapping (ORM)</b></li>
+						    <li>Production ready <b>administrative interface</b></li>
+						    <li><b>Elegant URL scheme</b></li>
+						</ul>
+					</section>
+					<section class="mtv" data-transition="none">
+						<h3>The MTV Model</h3>
+						<div class="pane-container">
+							<div class="pane pane-1">
+								<img src="img/MVT-0.png"/>
+							</div>
+							<div class="pane pane-1">
+								<h3>The Model</h3>
+								<ul>
+								    <li>The data behind the app</li>
+								    <li>No presentation logic</li>
+								    <li>No layout</li>
+								</ul>
+							</div>
+						</div>
+					</section>
+					<section class="mtv" data-transition="none">
+						<h3>The MTV Model</h3>
+						<div class="pane-container">
+							<div class="pane pane-1">
+								<img src="img/MVT-1.png"/>
+							</div>
+							<div class="pane pane-1">
+								<h3>The Template</h3>
+								<ul>
+								    <li>What the user sees</li>
+								    <li>Graphical representation of the model</li>
+								</ul>
+							</div>
+						</div>
+					</section>
+					<section class="mtv" data-transition="none">
+						<h3>The MTV Model</h3>
+						<div class="pane-container">
+							<div class="pane pane-1">
+								<img src="img/MVT-2.png"/>
+							</div>
+							<div class="pane pane-1">
+								<h3>The View</h3>
+								<ul>
+								    <li>Logic to translate user interactions</li>
+								    <li>Gets a request passed to it</li>
+								    <li>Returns a response (e.g. creates/updates Model instances)</li>
+								    <li>Also known as "controllers"</li>
+								</ul>
+							</div>
+						</div>
+					</section>
+					<section class="center">
+					<h2>Project structure</h2>
+					<pre class="margin-top"><code  class="bash code-focus" data-trim>
+pyladies-django-project/
+    manage.py
+    pyladies_django_project/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+					</code>	
+					</pre>
+					  <!-- Focuses on the first line. -->
+					  <span class="fragment disappear" data-code-focus="1">Project container, can be renamed.</span>
+					  <span class="fragment disappear" data-code-focus="2">Command-line utility (e.g. startproject, runserver, startapp)</span>
+					  <span class="fragment disappear" data-code-focus="3">Python package for your project. Use <code>pyladies_django_project.fileName</code> to import anything inside.</span>
+
+					  <span class="fragment disappear" data-code-focus="5">Project configuration. Most of it is done in the boilerplate project.</span>
+					  <span class="fragment disappear" data-code-focus="6">"Table of contents" of your site.</span>
+					  <span class="fragment disappear" data-code-focus="7">Entry-point for WSGI-compatible web servers to serve your project.</span>
+					</section>
+					<section class="exercise startapp">
+					<div class="github"
+						data-github-pre="boilerplate"
+					data-github-post="notesCreated" style="font-size: 0.8em"></div>
+					<h3>Let's Create our Notes App</h3>
+					<div class="break"></div>
+					<pre><code class="bash" data-trim>
+$ python manage.py startapp notes
+					</code></pre>
+					<div class="break"></div>
+					<div class="break"></div>
+					<div class="fragment">
+					<p><small>Edit <code>pyladies_django_workshop/settings.py</code></small></p>
+					<pre><code class="python" data-trim>
+INSTALLED_APPS = (
+    # previous apps
+    'notes',
+)
+					</code></pre>
+					</div>
+					</section>
+					<section class="center">
+					<h3>App folder structure</h3>
+
+					<div class="break"></div>
+
+<!-- 					<p> Make migrations </p>
+					<pre><code class="bash" data-trim>
+$ python manage.py makemigrations
+$ python manage.py migrate
+					</code></pre> -->
+					<pre class="fragment"><code  class="bash code-focus" data-trim>
+notes/
+    __init__.py
+    admin.py
+    migrations/
+        __init__.py
+    models.py
+    tests.py
+    views.py
+					</code>	
+					</pre>
+					  <span class="fragment disappear" data-code-focus="6"></span>
+					</section>
+				</section>
+				<!-- <slide> Milestones -->
+				<section class="milestones">
+					<h3>Agenda</h3>
+					<div class="pane-container">
+						<div class="pane pane-1">
+							<ol>
+								<li><h5>The Basics</h5></li>
+							    <li>Setup</li>
+							    <li>Django Overview</li>
+							    <li class="active">Models</li>
+							    <li class="todo">Views</li>
+							    <li class="todo">Templates</li>
+							</ol>
+						</div>
+						<div class="pane pane-2">
+							<ol>
+								<li><h5>Advanced Topics</h5></li>
+							    <li class="todo">Generic Views</li>
+							    <li class="todo">Signals</li>
+							    <li class="todo">Forms</li>
+							    <li class="todo">Django REST Framework</li>
+							    <li class="todo">Special Mentions</li>
+							</ol>
+						</div>
+					</div>
+				</section>
+				<section class="models center">
+					<h3>What models do we need for our app?</h3>
+					<p class="fragment"><code>Note</code></p>
+					<p class="fragment"><code>Tag</code></p>
+					<p class="fragment"><code>NoteCollection</code></p>
+				</section>
+				<section class="center">
+					<h2>Model Fields</h2>
+					<p> Edit <code>notes/models.py</code></p>
+					<pre>
+						<code class="python" data-trim contenteditable="true" data-noescape>
+from django.db import models
+
+class Note(models.Model):
+<span class="fragment disappear-out">    #todo</span>
+<span class="fragment" data-fragment-index="2">    title = models.CharField(max_length=100)</span>
+<span class="fragment">    content = models.TextField()</span>
+
+class Tag(models.Model):
+<span class="fragment disappear-out">    #todo</span>
+<span class="fragment">    keyword = models.CharField(max_length=50)</span>
+
+class NoteCollection(models.Model):
+<span class="fragment">    name = models.CharField(max_length=50)</span>
+						</code>
+					</pre>
+<p class="fragment disappear" data-fragment-index="2"><code>max_length</code> used not only in the database schema, but also in validation</p>
+				</section>
+				<section>
+				<div class="github" data-github-pre="preModels" data-github-post="solModels0"></div>
+					<h2>Activating Models</h2>
+					<div class="break"></div>
+					<pre><code class="code-focus bash" data-trim>
+$ python manage.py makemigrations
+$ python manage.py migrate
+					</code></pre>
+				<div class="break"></div>
+				<div class="break"></div>
+
+				<span class="fragment disappear" data-code-focus="1">Tell Django you've made <b>changes to your models</b>. Changes are stored as <i>migrations</i>. </br>
+				Migrations live inside <code>notes/migrations/</code> and are designed to be <b>human-readable</b>.</span>
+				<span class="fragment" data-code-focus="2">Tell Django to a <b>run the migrations</b> for you and <b>manage your database schema</b>.</span>
+				<div class="break"></div>
+
+				<p class="fragment"><b>Object Relational Mapping (ORM)</b> -> Database Agnostic</p>
+				</section>
+				<section>
+					<h5>Playing with the API</h5>
+					<span style="font-size:0.8em;" >Open new console, <code>cd</code> to project, <code>workon pyladies-django</code> and then:</span >
+					<pre>
+						<code class="python code-focus" data-trim data-noescape>
+(pyladies-django) $ python manage.py shell
+>>> from notes.models import Note
+>>> Note.objects.all()
+[]
+>>> n = Note(title='My First Note', content='My first content')
+>>> n.save()
+>>> n.id
+1
+>>> n.title
+"My First Note"
+>>> n.title = "This is not really my first Note"
+>>> n.save()
+>>> Note.objects.all()
+[&lt;Note: Note object&gt;]
+						</code>
+					</pre>
+<span class="fragment disappear" data-code-focus="3">Query all Note objects in database</span>
+<span class="fragment disappear" data-code-focus="5">Create a new Note object.</span>
+<span class="fragment disappear" data-code-focus="6">Save object into database.</span>
+<span class="fragment disappear" data-code-focus="7">Object now has an id (note that objects only have ids after they've been saved).</span>
+<span class="fragment disappear" data-code-focus="9-12">Access and change fields via Python attributes.</span>
+<span class="fragment disappear" data-code-focus="14">Ewww</span>
+				</section>
+				<section class="center">
+				<div class="github" data-github-pre="solModels0" data-github-post="solModels1"></div>
+					<h2>Let's fix that </h2>
+					<p><small> Edit <code>notes/models.py</code></small></p>
+					<pre>
+						<code class="python" data-trim>
+class Note(models.Model):
+    # ...
+    def __unicode__(self):
+        return '{0}'.format(self.title)
+
+class Tag(models.Model):
+    # ...
+    def __unicode__(self):
+        return '#{0}'.format(self.keyword)
+
+class NoteCollection(models.Model):
+    # ...
+    def __unicode__(self):
+        return '{0}'.format(self.name)
+						</code>
+					</pre>
+				</section>
+				<section class="center">
+				<div class="github" data-github-pre="solModels1" data-github-post="solModels2"></div>
+					<h3>More Fields and Field Attributes</h3>
+					<p><small> Edit <code>notes/models.py</code></small></p>
+					<pre>
+						<code class="python code-focus" data-trim>
+class Note(models.Model):
+
+    title = models.CharField(max_length=100, default='')
+    content = models.TextField(default='')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    is_pinned = models.BooleanField(default=False)
+    is_archived = models.BooleanField(default=False)
+
+    # ...
+						</code>
+					</pre>
+<span class="fragment disappear" data-code-focus="3"></span>
+<span class="fragment disappear" data-code-focus="6"></span>
+<span class="fragment disappear" data-code-focus="7"></span>
+<span class="fragment disappear" data-code-focus="9"></span>
+<!-- <span class="fragment">For the complete reference: <a href="https://docs.djangoproject.com/en/1.7/ref/models/fields/">https://docs.djangoproject.com/en/1.7/ref/models/fields/</a></span> -->
+				</section>
+				<section class="center">
+				<div class="github" data-github-pre="solModels2" data-github-post="solModels4"></div>
+					<pre>
+						<code class="python" data-trim>
+class Note(models.Model):
+    # ...
+    COLOR_CHOICES = (
+        ('white', 'White'),
+        ('red', 'Red'),
+        ('yellow', 'Yellow'),
+        # ...
+    )
+
+    color = models.CharField(max_length=9,
+                             choices=COLOR_CHOICES,
+                             default=COLOR_CHOICES[0][0])
+
+    class Meta:
+        # when ordering by boolean, false comes first (db dependant)
+        ordering = ('-is_pinned', 'is_archived', '-updated_at' )
+						</code>
+					</pre>
+<span class="fragment disappear">Other useful Meta fields: <code>unique_together, verbose_name, verbose_name_plural, db_table</code></span>
+<span class="fragment">For the complete reference: <a href="https://docs.djangoproject.com/en/1.7/ref/models/fields/">https://docs.djangoproject.com/en/1.7/ref/models/fields/</a></span>
+				</section>
+				<section class="center">
+				<div class="github" data-github-pre="solModels4" data-github-post="solModels"></div>
+					<h3>Relational Fields</h3>
+					<p><small> Edit <code>notes/models.py</code></small></p>
+					<pre>
+						<code class="python" style="margin-bottom:-30px;" data-trim>
+class Note(models.Model):
+    # ...
+    note_collection = models.ForeignKey('NoteCollection', 
+        null=True, related_name='notes')
+
+class Tag(models.Model):
+    # ...
+    notes = models.ManyToManyField('Note')    
+						</code>
+					</pre>
+<span class="fragment disappear"><code>ForeignKey</code>: Many-To-One Relation</br> Each Note is related to one NoteCollection. Each NoteCollection has many Notes. <small>not the best example I know...</small></span>
+<span class="fragment disappear"><code>ManyToManyField</code>: Many-To-Many Relation</br> Each Note can have many Tags. Each Tag can appear in many Notes.</span>
+<span class="fragment disappear"><code>related_name</code>: allows us to rename the related object manager (more on this later)</span>
+				</section>
+				<section>
+				<div class="github" data-github-post="solModels"></div>
+				<h3>Shell Time</h3>
+					<p>Remember to do your migrations.</p>
+					<div class="break"></div>
+					<pre>
+						<code class="bash" data-trim data-noescape>
+(pyladies-django) $ python manage.py makemigrations
+(pyladies-django) $ python manage.py migrate
+					</code>
+					</pre>
+					<p>or</p>
+					<pre><code class="bash" data-trim>
+(pyladies-django) $ python manage.py flush
+(pyladies-django) $ python manage.py migrate
+</code></pre>
+				</section>
+				<section>
+				<div class="github" data-github-post="solModels"></div>
+				<h3>Shell Time</h3>
+<pre><code class="python code-focus" data-noescape>
+(pyladies-django) $ python manage.py shell
+>>> from notes.models import Note, Tag
+>>> Note.objects.create(title='My First Note')
+&lt;Note: My First Note&gt;
+>>> n = Note.objects.get(id=1)
+>>> t = Tag.objects.create(keyword='pyladies')
+>>> n.tags
+&lt;django.db.models.fields.related.ManyRelatedManager object at 0x10be21550>
+>>> n.tags.all()
+[]
+>>> n.tags.add(t)
+>>> Note.objects.first().tags.all()
+[&lt;Tag: #pyladies&gt;]
+</code></pre>
+<div class="break"></div>
+<span class="fragment disappear" data-code-focus="4">Shortcut to create Python object and save into database.</span>
+<span class="fragment disappear" data-code-focus="6">Returns <b>single</b> object matching the query. Throws an error if query matches more than one object.</span>
+<span class="fragment disappear" data-code-focus="8">This is the related manager we renamed earlier. If we hadn't done so, this Note's tag manager would be <code>n.tag_set</code> (default is <code>&lt;RelatedModel&gt;_set</code>).</span>
+<span class="fragment disappear" data-code-focus="12">Using the related manager, add tag to note.</span>
+<span class="fragment disappear" data-code-focus="14">The change has been saved!</span>
+				</section>
+				<section class="center">
+					<h1>Django Admin</h1>
+				</section>
+				<section>
+					<h3>Creating an Admin User</h3>
+			<div class="break"></div>
+			<div class="break"></div>
+			<div class="github" data-github-pre="preAdmin" data-github-post="solAdmin0"></div>
+
+<pre><code class="bash" data-trim>
+(pyladies-django) $ python manage.py createsuperuser
+</code></pre>
+			<div class="break"></div>
+			<div class="break"></div>
+			<p>or execute bash script</p>
+			<div class="break"></div>
+			<div class="break"></div>
+<pre><code class="bash" data-trim>
+(pyladies-django) $ git reset --hard solAdmin0
+(pyladies-django) $ chmod u+x ./scripts/createsuperuser
+(pyladies-django) $ ./scripts/createsuperuser
+</code></pre>
+				</section>
+				<section class="center">
+					<h3>Viewing the Admin Interface</h3>
+			<div class="break"></div>
+			<div class="break"></div>
+<pre><code class="bash" data-trim>
+(pyladies-django) $ python manage.py runserver
+</code></pre>
+			<div class="break"></div>
+			<div class="break"></div>
+<p>Go to <a href="http://127.0.0.1:8000/admin/" target="_blank">http://127.0.0.1:8000/admin/</a></p>
+<span>If you used the script, use admin/pass for login.</span>
+
+				</section>
+				<section class="center">
+			<div class="github" data-github-pre="solAdmin0" data-github-post="solAdmin"></div>
+					<h5>Exposing our app to the Admin Interface</h5>
+					<p><small>Edit <code>notes/admin.py</code></small></p>
+<pre><code class="python" data-trim>
+from django.contrib import admin
+from notes.models import Note, Tag, NoteCollection
+
+admin.site.register(Note)
+admin.site.register(Tag)
+admin.site.register(NoteCollection)
+</code></pre>
+			<div class="break"></div>
+			<div class="break"></div>
+<p>Go to <a href="http://127.0.0.1:8000/admin/" target="_blank">http://127.0.0.1:8000/admin/</a></p>
+<span>Very customizable, read more about it here <a href="https://docs.djangoproject.com/en/1.7/intro/tutorial02">https://docs.djangoproject.com/en/1.7/intro/tutorial02/</a></span>
+
+				</section>
+				<section class="center">
+					<h1>Views</h1>
+				</section>
+				<section class="viewsPhilosophy">
+					<h3>Views</h3>
+					<span>In Django, web pages and other content are <b>delivered</b> by views. Generally speaking, a View must serve a <b>specific function</b> and has a <b>specific Template</b>.</span>
+					<p class="fragment medium-size">Take a guess at which views we need!</p>
+					<ul>
+					    <li class="fragment">Note <code>index</code> page <span>displays all notes</span></li>
+					    <li class="fragment">Note <code>detail</code> page <span>displays single note</span></li>
+					    <li class="fragment">Note <code>archiveIndex</code> page <span>displays archived notes</span></li>
+					    <li class="fragment">Note <code>pinnedIndex</code> page <span>displays pinned notes</span></li>
+					    <li class="fragment">Tag-based <code>search</code> page <span> displays all notes for a given tag</span></li>
+					    <li class="fragment"><code>noteAction</code><span> handles note creation and update</span></li>
+					</ul>
+				</section>
+				<section class="firstView">
+					<h5>Writing our First View</h5>
+					<p class="medium-size">Edit notes/views.py</p>
+					<pre><code class="python code-focus" data-trim>
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the notes index.")
+					</code></pre>
+					<div class="fragment" data-fragment-index="2">
+					<div class="break"></div>
+
+					<p class="medium-size">Edit notes/urls.py (create it if it doesn't exist)</p>
+					<pre><code class="python code-focus" data-trim>
+from django.conf.urls import patterns, url
+
+from notes import views
+
+urlpatterns = patterns('',
+    url(r'^$', views.index, name='index'),
+)
+					</code></pre>
+					</div>
+					<div class="break"></div>
+<span class="fragment disappear" data-code-focus="4" data-fragment-index="1">Instantiates an HttpResponse object with the given page content and the default content type (<code>text/html; charset=utf-8</code>).</span>
+<span class="fragment disappear" data-code-focus="4">Admittedly, this is simple. But views can also read records from a database (or not), use Django's template system (or not), generate PDF files, output XML or JSON, create ZIP files... <b>The sky is the limit (or not?)</b>.</span>
+<span class="fragment disappear" data-code-focus="4"><b>All Django wants is that HttpResponse.</b> Or an exception.</span>
+
+<span class="fragment disappear" data-code-focus="10">This part is <b>wiring our <code>index</code> view to a url</b> using the <code>url()</code> function.</span>
+<span class="fragment disappear" data-code-focus="10"><code>url()</code> is passed 4 arguments: <code>regex</code> , <code>view</code> (required) and <code>name</code>, <code>kwargs</code> (optional).</span>
+<span class="fragment disappear" data-code-focus="10"><b><code>regex</code> matches patterns in urls.</b> Django starts at the first regular expression and makes its way down the list.</span>
+<span class="fragment disappear small-size" data-code-focus="10">When a regex matches, it <b>calls the associated <code>view</code> function</b> with an <b><code>HttpRequest</code> object as the first argument</b> as well as any additonal <b>captures</b> (more about this later).</span>
+<span class="fragment disappear" data-code-focus="10">You can <code>name</code> your url and refer to it elsewhere in Django. This way you can change your url conf and <b>only edit a single file</b>.</span>
+				</section>
+				<section >
+				<div class="github" style="font-size:0.8em"data-github-pre="preFirstView" data-github-post="solFirstView"></div>
+					<h3>Writing our First View (cont'd)</h3>
+					<p class="medium-size">Edit pyladies_django_project/urls.py</p>
+					<div class="break"></div>
+					<pre><code class="python" contenteditable="true" data-trim data-noescape>
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+
+urlpatterns = patterns('',
+    <span class="fragment disappear-out" data-fragment-index="1">url(r'^notes/', include('notes.urls')),</span>
+    <span class="fragment" data-fragment-index="1">url(r'^', include('notes.urls')),</span>
+    url(r'^admin/', include(admin.site.urls)),
+)
+					</code></pre>
+					<div class="break"></div>
+<p class="fragment disappear-out" data-fragment-index="1">Go to <a href="http://127.0.0.1:8000/notes/" target="_blank">http://127.0.0.1:8000/notes/</a></p>
+<p class="fragment" data-fragment-index="1">Go to <a href="http://127.0.0.1:8000" target="_blank">http://127.0.0.1:8000/</a></p>
+				</section>
+				<section class="views views0">
+				<div class="github" style="font-size:0.8em" data-github-pre="preViews" data-github-post="solViews0"></div>
+				<h3>Let's wire more views</h3>
+					<p class="medium-size">Add these lines to notes/urls.py</p>
+					<pre><code class="python" data-trim data-noescape>
+urlpatterns = patterns('',
+    # ...
+    # ex: /archive.
+    url(r'^archive/$', views.archive_index, name='archive'),
+    # ex: /pinned/
+    url(r'^pinned/$', views.pinned_index, name='pinned'),
+    # ex: /5/
+    url(r'^(?P&lt;note_id&gt;\d+)/$', views.detail, name='detail'),
+    # ex: /create/
+    url(r'^create$', views.create_note, name='create_note'),
+    # ex: /5/edit
+    url(r'^(?P&lt;note_id&gt;\d+)/edit$', views.edit_note, name='edit_note'),
+)
+					</code></pre>
+					<div class="break"></div>
+<span class="fragment disappear">Using parentheses around a pattern <b>“captures” the text</b> matched by that pattern and <b>sends it as an argument to the view</b> function</span>
+<span class="fragment disappear"><b>P&lt;note_id&gt; defines the name</b> that will be used to identify the matched pattern; and \d+ is a regex to match a sequence of digits (i.e., a number)</span>
+				</section>
+				<section class="views views0">
+				<div class="github" style="font-size:0.8em" data-github-pre="solViews0" data-github-post="solViews1"></div>
+				<h3>Let's wire more views (cont'd)</h3>
+					<p class="medium-size">Update notes/views.py to match notes/urls.py</p>
+					<pre><code class="python" data-trim data-noescape>
+def archive_index(request):
+    return HttpResponse("You're looking at the archive.")
+
+def pinned_index(request):
+    return HttpResponse("You're looking at your pinned notes.")
+
+def detail(request, note_id):
+    return HttpResponse("You're looking at note %s." % note_id)
+
+def create_note(request):
+    return HttpResponse("You're creating a note.")
+
+def edit_note(request, note_id):
+    return HttpResponse("You're editing note %s." % note_id)
+					</code></pre>
+					<div class="break"></div>
+<span>Notice the note_id argument for some of the views.</span>
+				</section>
+				<section class="center">
+				<h1>Can we write a view that actually does something already?</h1>
+				<p style="text-align:right;">Oh, right.</p>
+				</section>
+				<section>
+				<h5>Writing a view that actually does something</h5>
+					<p class="medium-size">Update the index function in notes/views.py</p>
+					<pre><code class="python" data-trim data-noescape>
+from notes.models import Note
+ 
+def index(request):
+    notes = Note.objects.all()
+    output = ' / '.join([note.title for note in notes])
+    return HttpResponse(output)
+					</code></pre>
+					<div class="break"></div>
+<span>Go to <a href="http://127.0.0.1:8000" target="_blank">http://127.0.0.1:8000/</a></span>
+<div class="break"></div>
+<span class="fragment">How to avoid hard-coding the page's design in the view?</span>
+<p class="fragment right-align"><b>Yep, templates</b></p>
+				</section>
+				<section class="center">
+				<h1>HTML? CSS?</h1>
+				<h1>Got you covered.</h1>
+				</section>
+				<section class="center">
+					<h1>Templates</h1>
+				</section>
+				<section>
+					<h5>What Templates look like</h5>
+<p><small>Open templates/base.html</small></p>
+<pre><code class="html code-focus" data-trim><xmp>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Not Google Keep</title>
+    {% include 'stylesheets.html' %}
+  </head>
+
+  <body>
+    {% include 'navbar.html' %}
+
+      {% block content %}
+        <div class="container main-content">
+          <p> There is nothing here yet. Let's start building! </p>
+        </div>
+      {% endblock %}
+
+    {% include 'javascripts.html' %}
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
+</xmp>
+					</code></pre>
+<span class="fragment disappear" data-code-focus="6"></span>
+<span class="fragment disappear" data-code-focus="12-16"></span>
+				</section>
+				<section>
+<p><small>In templates/notes/index.html (<code>git reset --hard simpleIndex</code>)</small></p>
+<pre><code class="html code-focus" data-trim><xmp>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container main-content {% if search %}search{% endif %}">
+    <div class="row">
+        <div class="col-lg-12" id="container">
+            {% for note in notes %}
+              <p>{{ note.title}}</p>
+            {% empty %}
+              <div class="no-notes-container">
+              <div class="no-notes text-center">
+                  {% if search %}
+                    <h3>No matching notes.</h3>
+                  {% else %}
+                    <h3>Your {% if archive %}archived{% endif %} notes will appear here.</h3>
+                  {% endif %}
+              </div>
+              </div>
+          {% endfor %}
+        </div><!-- /#container -->
+    </div>
+</div><!-- /main content -->
+{% endblock %}
+</xmp>
+					</code></pre>
+<span class="fragment disappear" data-code-focus="2"></span>
+<span class="fragment disappear" data-code-focus="4"></span>
+<span class="fragment disappear" data-code-focus="8"></span>
+<span class="fragment disappear" data-code-focus="20"></span>
+<span class="fragment disappear" data-code-focus="10"></span>
+<span class="fragment disappear" data-code-focus="9"></span>
+				</section>
+				<section>
+
+				<div class="github" style="font-size:0.8em;" data-github-post="simpleIndex"></div>
+				<h3>Writing a view that actually does something (for real)</h3>
+					<p class="medium-size">Update the index function in notes/views.py</p>
+					<pre><code class="python code-focus" data-trim data-noescape>
+from django.template import RequestContext, loader
+from notes.models import Note
+ 
+def index(request):
+    template = loader.get_template('notes/index.html')
+    context = RequestContext(request, {
+        'notes': Note.objects.all(),
+    })
+    return HttpResponse(template.render(context))
+					</code></pre>
+					<div class="break"></div>
+<span class="fragment disappear" data-code-focus="6"></span>
+<span class="fragment disappear" data-code-focus="7"></span>
+				</section>
+				<section class="center">
+
+				<div class="github" style="font-size:0.8em;" data-github-post="simpleIndex"></div>
+				<h5>Even Better</h5>
+					<p class="medium-size">Update the index function in notes/views.py</p>
+					<pre><code class="python code-focus" data-trim data-noescape>
+from django.shortcuts import render
+from notes.models import Note
+ 
+def index(request):
+    context = {
+        'notes': Note.objects.all(),
+    }
+    return render(request, 'notes/index.html', context)
+					</code></pre>
+					<div class="break"></div>
+<span class="fragment disappear" data-code-focus="1"></span>
+<span class="fragment disappear" data-code-focus="5"></span>
+<span class="fragment disappear" data-code-focus="8"></span>
+				</section>
+				<section class="center">
+				<h1> Add some of that CSS+JS &lt;3</h1>
+				<p><code>git reset --hard prettyIndex</code></p>
+				<span class="fragment">(yep, nothing more)</span>
 				</section>
 				</div>
 			</div>
-			</div>
-			<script src="lib/js/head.min.js"></script>
-			<script src="js/reveal.js"></script>
-			<script>
-				// Full list of configuration options available at:
-				// https://github.com/hakimel/reveal.js#configuration
-				Reveal.initialize({
-					controls: true,
-					progress: true,
-					history: true,
-					center: false,
-					transition: 'slide', // none/fade/slide/convex/concave/zoom
-					// Optional reveal.js plugins
-					dependencies: [
-						{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-						{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-						{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-						{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-						{ src: 'plugin/zoom-js/zoom.js', async: true },
-						{ src: 'plugin/notes/notes.js', async: true }
-						// { src: 'plugin/search/search.js', async: true }
-
-					]
-				});
-			</script>
-			<script src="bower_components/jquery/dist/jquery.min.js"></script>
-			<script src="bower_components/angular/angular.min.js"></script>
-			<script src="js/app.js"></script>
-			<script src="js/script.js"></script>
-
-		</body>
-	</html>
+		</div>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script>
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: false,
+				transition: 'convex', // none/fade/slide/convex/concave/zoom
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'node_modules/reveal-code-focus/code-focus.js', 
+					condition: function() { return !!document.querySelector( '[data-code-focus]' );},
+					async: true }
+				]
+			});
+			console.log(window.RevealCodeFocus);
+		</script>
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script>
+        </script>
+		<!-- <script src="js/app.js"></script>-->
+		<script src="js/script.js"></script>
+	</body>
+</html>

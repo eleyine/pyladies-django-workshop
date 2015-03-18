@@ -1,3 +1,46 @@
+.reveal .slides section {
+  font-family: "Merriweather Sans";
+  letter-spacing: -0.03em; }
+  .reveal .slides section p {
+    margin: 10px 0;
+    font-weight: bold; }
+    .reveal .slides section p.medium-size {
+      font-size: 0.8em; }
+  .reveal .slides section .right-align {
+    text-align: right !important; }
+  .reveal .slides section span.medium-size {
+    font-size: 0.8em; }
+  .reveal .slides section span.small-size {
+    font-size: 0.6em; }
+  .reveal .slides section b {
+    font-weight: 800; }
+  .reveal .slides section pre {
+    margin: -10px 0;
+    width: 100%;
+    box-shadow: none; }
+    .reveal .slides section pre code {
+      max-height: inherit;
+      padding: 20px; }
+  .reveal .slides section .break {
+    height: 40px;
+    width: 100%; }
+  .reveal .slides section ul, .reveal .slides section ol {
+    list-style: none; }
+  .reveal .slides section section img {
+    border: 0;
+    box-shadow: none;
+    background: transparent; }
+
+h1 code, h2 code, h3 code, h4 code, h5 code {
+  text-transform: none; }
+
+/* Custom utilities */
+.red-text {
+  color: red; }
+
+.inline-list li {
+  display: inline-block; }
+
 .pane {
   width: 50%;
   display: block;
@@ -5,29 +48,142 @@
   vertical-align: middle;
   height: 100%; }
 
-#setupTools ul {
+pre code .line {
+  width: 100%;
+  display: block; }
+  pre code .line.focus {
+    font-weight: 800;
+    font-size: 1.2em;
+    background-color: rgba(201, 240, 221, 0.3); }
+
+.reveal .slides section .fragment.disappear {
+  transition: none;
+  transition: opacity 0.2s ease;
+  font-size: 0; }
+  .reveal .slides section .fragment.disappear.current-fragment {
+    font-size: inherit; }
+
+.reveal .slides section .fragment.disappear-out {
+  transition: none;
+  transition: opacity 0.2s ease;
+  visibility: visible;
+  opacity: 1; }
+  .reveal .slides section .fragment.disappear-out.visible, .reveal .slides section .fragment.disappear-out.visible.current-fragment {
+    font-size: 0; }
+
+.reveal div.github {
+  display: block;
+  width: 100%;
+  margin-bottom: 2em; }
+  .reveal div.github .post, .reveal div.github .pre {
+    font-family: "Consolas";
+    font-size: 0.9em;
+    display: block;
+    width: 50%; }
+  .reveal div.github .pre {
+    text-align: left;
+    float: left; }
+  .reveal div.github .post {
+    text-align: right;
+    float: right; }
+  .reveal div.github .tag {
+    color: red; }
+
+.reveal .white {
+  color: #eee; }
+.reveal .djangoGreen {
+  color: #44B78B; }
+.reveal .lightPurple a, .reveal .lightPurple p {
+  color: #fff; }
+  .reveal .lightPurple a:hover, .reveal .lightPurple p:hover {
+    color: #e8ebff; }
+
+.today ol {
+  list-style: decimal; }
+.today li {
+  padding: 0.4em 0; }
+
+.setupTools ul {
   list-style: none;
   background: #eee;
   font-size: 0.8em;
   padding: 5px 20px;
   border-radius: 5px; }
-  #setupTools ul li {
-    display: inline-block; }
-    #setupTools ul li.current-fragment code {
-      color: red; }
-    #setupTools ul li.fragment {
-      visibility: visible;
+  .setupTools ul li {
+    display: inline-block;
+    visibility: visible;
+    opacity: 1; }
+    .setupTools ul li:before {
+      content: "& ";
+      opacity: 1 !important; }
+    .setupTools ul li:first-child:before {
+      display: none; }
+    .setupTools ul li code {
+      opacity: 0.3; }
+    .setupTools ul li code.active {
       opacity: 1; }
-      #setupTools ul li.fragment:before {
-        content: "& ";
-        opacity: 1 !important; }
-      #setupTools ul li.fragment:first-child:before {
-        display: none; }
-      #setupTools ul li.fragment code {
+.setupTools .pane-1 {
+  width: 100%; }
+.setupTools .pane-2 {
+  width: 100%; }
+
+.milestones {
+  height: 100%; }
+  .milestones h5 {
+    margin: 0;
+    text-align: left; }
+  .milestones .pane {
+    width: 50%; }
+  .milestones ol {
+    list-style: none;
+    margin: -10px 0;
+    min-width: 350px;
+    max-width: 500px; }
+    .milestones ol li {
+      padding: 20px 10px; }
+      .milestones ol li.todo {
         opacity: 0.3; }
-      #setupTools ul li.fragment.visible code {
-        opacity: 1; }
-#setupTools .pane-1 {
-  width: 100%; }
-#setupTools .pane-2 {
-  width: 100%; }
+      .milestones ol li.active {
+        background-color: #eee;
+        border-radius: 5px; }
+
+.djangoSites img {
+  width: auto;
+  max-height: 5em;
+  max-width: 6em; }
+  .djangoSites img .letters {
+    max-width: 8em; }
+.djangoSites p.big-size {
+  display: inline-block;
+  font-size: 1.8em;
+  text-align: center;
+  padding: 0 30px; }
+
+.mtv ul {
+  list-style: inherit;
+  padding-left: 30px; }
+.mtv .mask {
+  display: block;
+  position: fixed;
+  background: red; }
+  .mtv .mask.unmask-template {
+    top: 300px;
+    width: 100px;
+    height: 100px; }
+
+.margin-top {
+  margin-top: 3em !important; }
+
+.startapp pre code {
+  margin-top: 1em; }
+
+.reveal section.viewsPhilosophy ul li span {
+  opacity: 0.5;
+  font-size: 0.8em;
+  font-weight: 300; }
+
+.reveal .slides section.views .fragment.disappear.current-fragment, .reveal .slides section.firstView .fragment.disappear.current-fragment {
+  font-size: 0.7em; }
+
+.reveal .slides section .fragment.disappear.current-fragment.small-size {
+  font-size: 0.6em; }

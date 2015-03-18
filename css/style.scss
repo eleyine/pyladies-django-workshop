@@ -1,3 +1,75 @@
+@import "bourbon/bourbon";
+
+// GENERAL STYLES
+
+
+.reveal .slides section {
+
+    font-family: "Merriweather Sans";
+    letter-spacing: -.03em;
+    p {
+        margin: 10px 0;
+        font-weight: bold;
+
+        &.medium-size {
+            font-size: 0.8em;
+        }
+    }
+
+    .right-align {
+        text-align: right !important;
+    }
+
+    span.medium-size {
+        font-size: 0.8em;
+    }
+    span.small-size {
+        font-size: 0.6em;
+    }
+    b {
+        font-weight: 800;
+    }
+    pre {
+        margin: -10px 0;
+        width: 100%;
+        box-shadow: none;
+        code {
+            max-height: inherit;
+            padding: 20px;
+        }
+    }
+
+    .break {
+        height: 40px;
+        width: 100%;
+    }
+
+    ul, ol {
+        list-style: none;
+    }
+
+    section img {
+        border: 0;
+        box-shadow: none;
+        background: transparent;
+    }
+}
+
+h1, h2, h3, h4, h5 {
+    code {
+        text-transform: none;
+    }
+}
+
+/* Custom utilities */
+.red-text {
+    color: red;
+}
+
+.inline-list li {
+    display: inline-block;
+}
+
 .pane {
     width: 50%;
     display: block;
@@ -6,7 +78,121 @@
     height: 100%;
 }
 
-#setupTools {
+// CODE FOCUS
+
+pre code .line {
+    width: 100%;
+    display:block;
+    
+    &.focus {
+        font-weight: 800;
+        font-size: 1.2em;
+        background-color: rgba(201,240,221,0.3);
+        // background-color: #0C4B33;
+    }
+}
+
+// disappearing fragments
+
+.reveal .slides section .fragment.disappear {
+    transition: none;
+    transition: opacity 0.2s ease;
+    font-size: 0;
+    &.current-fragment {
+        font-size: inherit;
+    }
+}
+
+.reveal .slides section .fragment.disappear-out {
+    transition: none;
+    transition: opacity 0.2s ease;
+    visibility: visible;
+    opacity: 1;
+    &.visible,
+    &.visible.current-fragment {
+        font-size: 0;
+    }
+    // &.visible.current-fragment {
+    //     font-size: inherit;
+    // }
+}
+
+
+// GIT COMMANDS
+
+.reveal div.github {
+    display: block;
+    width: 100%;
+    margin-bottom: 2em;
+    .post,
+    .pre {
+        font-family: "Consolas";
+        font-size: 0.9em;
+        display:block;
+        width: 50%;
+    }
+    .pre {
+        text-align: left;
+        float:left;
+    }
+    .post {
+        text-align: right;
+        float: right;
+    }
+    .tag {
+        color: red;
+    }
+    
+}
+
+// COLORS
+$gray: #f5f5f5;
+$green: #b9f6ca;
+$yellow: #ffff8d;
+$blue: #84ffff;
+$darkBlue: #80d8ff;
+$deepBlue: #448aff;
+$purple: #b388ff;
+$lightPurple: #8c9eff;
+$red: #ff8a80;
+$pink: #ff80ab;
+
+$django3: #0C3C26;
+$django2: #0C4B33;
+$django1: #44B78B;
+$django0: #C9F0DD;
+
+.reveal {
+    .white {
+        color: #eee;
+    }
+    .djangoGreen {
+        color: #44B78B;
+    }
+
+    .lightPurple {
+        a, p {
+            color: #fff;
+            &:hover {
+                color: tint($lightPurple, 80%);
+            }
+        }
+    }
+}
+
+
+// SLIDE STYLES
+
+.today {
+    ol {
+        list-style: decimal;
+    }
+    li {
+        padding: .4em 0;
+    }
+}
+
+.setupTools {
     ul {
         list-style: none;
         background: #eee;
@@ -16,29 +202,24 @@
 
         li {
             display: inline-block;
-            &.current-fragment code {
-                color: red;
+            visibility: visible;
+            opacity: 1;
+
+            &:before {
+                content: "& ";
+                opacity: 1 !important; 
             }
-            &.fragment {
-                visibility: visible;
+
+            &:first-child:before {
+                display: none;
+            }
+
+            code {
+                opacity: 0.3;
+            }
+
+            & code.active {
                 opacity: 1;
-
-                &:before {
-                    content: "& ";
-                    opacity: 1 !important; 
-                }
-
-                &:first-child:before {
-                    display: none;
-                }
-
-                code {
-                    opacity: 0.3;
-                }
-
-                &.visible code {
-                    opacity: 1;
-                }
             }
         }
     }
@@ -49,3 +230,93 @@
         width:100%;
     }
 }
+
+.milestones {
+    height: 100%;
+    h5 {
+        margin: 0;
+        text-align: left;
+    }
+    .pane {
+        width: 50%;
+    }
+    ol {
+        list-style: none;
+        margin: -10px 0;
+        min-width: 350px;
+        max-width: 500px;
+        li {
+            &.todo {
+                opacity: 0.3;
+            }
+            padding: 20px 10px;
+            &.active {
+                background-color: #eee;
+                border-radius: 5px;
+            }
+        }
+    }
+}
+
+.djangoSites {
+    img {
+        width: auto;
+        max-height: 5em;
+        max-width: 6em;
+
+        .letters {
+            max-width: 8em;
+        }
+    }
+    p.big-size {
+        display: inline-block;
+        font-size: 1.8em;
+        text-align: center;
+        padding: 0 30px;
+    }
+}
+
+.mtv {
+    ul {
+        list-style: inherit;
+        padding-left: 30px;
+    }
+    .mask {
+        display: block;
+        position: fixed;
+        background: red;
+
+        &.unmask-template {
+            top:300px;
+            width: 100px;
+            height: 100px;
+        }
+    }
+}
+
+.margin-top {
+    margin-top: 3em !important;
+}
+
+.startapp {
+    pre code {
+        margin-top: 1em;
+    }
+}
+
+.reveal section.viewsPhilosophy {
+    ul li span {
+        opacity:0.5;
+        font-size: 0.8em;
+        font-weight: 300;
+    }
+}
+.reveal .slides section.views .fragment.disappear.current-fragment,
+.reveal .slides section.firstView .fragment.disappear.current-fragment {
+  font-size: 0.7em;
+}
+
+.reveal .slides section .fragment.disappear.current-fragment.small-size {
+  font-size: 0.6em;
+}
+
