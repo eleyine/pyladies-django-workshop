@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container main-content {% if search %}search{% endif %}">
+    <div class="row">
+        <div class="col-lg-12" id="container">
+            <!-- <div class="grid-sizer"></div> -->
+            {% for note in notes %}
+                <p>{{ note.title}}</p>
+                {% empty %}
+                <div class="no-notes-container">
+                    <div class="no-notes text-center">
+                        <div class="icon">
+                            <i class="mdi-editor-insert-drive-file"></i>
+                        </div>
+                        {% if search %}
+                            <h3>No matching notes.</h3>
+                        {% else %}
+                            <h3>Your {% if archive %}archived{% endif %} notes will appear here.</h3>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            </div><!-- /#container -->
+        </div>
+    <div id="dialog"></div>
+    <div id="toolbar">
+        <!-- Debug Toolbar -->
+    </div><!-- /#toolbar django-debugging -->
+</div><!-- /main content -->
+{% endblock %}
