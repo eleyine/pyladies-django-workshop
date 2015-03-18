@@ -40,3 +40,15 @@
     </div><!-- /#toolbar django-debugging -->
 </div><!-- /main content -->
 {% endblock %}
+
+{% block scripts %}
+<script>
+$( document ).ready(function() {
+  {% if messages %}
+    {% for message in messages %}
+    $.snackbar({content: '{{ message }}' });
+    {% endfor %}
+  {% endif %}
+});
+</script>
+{% endblock %}
