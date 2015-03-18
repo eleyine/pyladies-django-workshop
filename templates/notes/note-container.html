@@ -1,0 +1,34 @@
+<div class="note-container {% if note.is_pinned %}pinned{% endif %}" data-id="{{note.pk}}">
+    <div class="panel panel-default {{note.color}}">
+        <div class="panel-heading">
+          {{ note.title }}
+        </div>
+        <div class="panel-body">
+          {{ note.content }}
+        </div>
+        <div class="panel-footer">
+          <div class="btn-group btn-group-sm pull-left">
+              <button class="pin {% if note.is_pinned %} pinned {% endif %}">
+              {% if note.is_pinned %}
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+              {% else %}
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+              {% endif %}
+              </button>
+              <button class="archive {% if note.is_archived %} archived {% endif %}">
+                {% if note.is_archived %}
+                  <span class="mdi-editor-publish" aria-hidden="true"></span>
+                {% else %}
+                  <span class="mdi-content-archive" aria-hidden="true"></span>
+                {% endif %}
+              </button>
+              <button class="delete"><i class="mdi-action-delete" aria-hidden="true"></i></button>
+          </div>
+          <div class="btn-group btn-group-sm pull-right">
+            <button class="edit"><i class="mdi-editor-border-color" aria-hidden="true"></i></button>
+          </div>
+        </div>
+    </div>
+  </div>
+
+

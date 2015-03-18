@@ -5,7 +5,7 @@
         <div class="col-lg-12" id="container">
             <!-- <div class="grid-sizer"></div> -->
             {% for note in notes %}
-                <p>{{ note.title}}</p>
+                {% include "notes/note-container.html" %}
                 {% empty %}
                 <div class="no-notes-container">
                     <div class="no-notes text-center">
