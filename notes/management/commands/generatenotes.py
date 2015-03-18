@@ -49,7 +49,9 @@ class Command(BaseCommand):
         data =  {
             'title':  get_sentence(), 
             'content': content,
-            'color': Command.random_color()
+            'color': Command.random_color(),
+            'is_pinned': bool(randint(0, 1)),
+            'is_archived': bool(randint(0, 1)),
             }
         return data
 
