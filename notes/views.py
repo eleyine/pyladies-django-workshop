@@ -1,8 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+
+from notes.models import Note
  
 def index(request):
-    return HttpResponse("Hello, world. You're at the notes index.")
+    notes = Note.objects.all()
+    output = ' / '.join([note.title for note in notes])
+    return HttpResponse(output)
 
 def archive_index(request):
     return HttpResponse("You're looking at the archive.")
