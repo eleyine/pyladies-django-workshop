@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 from notes.models import Note
  
@@ -20,8 +22,15 @@ def detail(request, note_id):
     return HttpResponse("You're looking at note {0}.".format(note_id))
 
 def create_note(request):
-
-    return HttpResponse("You're creating a note.")
+    if request.method == 'POST':
+        allowed_fields = ('title', 'content', 'color', )
+        create_options = {}
+        for name, value in request.POST.iteritems():
+            if name in allowed_fields:
+                create_options[name] = value
+        Note.objects.create(**create_options)
+        messages.success(request, 'Your note has been saved.')
+    return HttpResponseRedirect(reverse('index'))
 
 def edit_note(request, note_id):
     return HttpResponse("You're editing note {0}.".format(note_id))
