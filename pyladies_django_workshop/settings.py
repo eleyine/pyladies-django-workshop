@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'rest_framework',
     'compressor',
+    'notes'
 )
 
 MIDDLEWARE_CLASSES = (
