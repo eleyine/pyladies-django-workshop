@@ -10,6 +10,9 @@ class Note(models.Model):
     is_pinned = models.BooleanField(default=False)
     is_archived = models.BooleanField(default=False)
 
+    note_collection = models.ForeignKey('NoteCollection', 
+        null=True, related_name='notes')
+
     COLOR_CHOICES = (
         ('white', 'White'),
         ('red', 'Red'),
@@ -34,6 +37,7 @@ class Note(models.Model):
 
 class Tag(models.Model):
     keyword = models.CharField(max_length=50)
+    notes = models.ManyToManyField('Note', related_name='tags')
 
     def __unicode__(self):
         return '#{0}'.format(self.keyword)
