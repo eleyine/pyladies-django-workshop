@@ -1,7 +1,7 @@
 <div class="row">
 <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
 
-    <form class="panel panel-default form-horizontal form-note" action="{% url 'note_collection' %}" method="post">
+    <form class="panel panel-default form-horizontal form-note" action="{% url 'create_note' %}" method="post">
         {% csrf_token %}
         <fieldset>
         <div class="panel-body">
