@@ -16,13 +16,16 @@ var UXModule = (function ($) {
 
         // Masonry Responsive Grid
         var container = document.querySelector('#container');
+        var msnry;
         if (container) {
-            var msnry = new Masonry( container, {
+            msnry = new Masonry( container, {
                 columnWidth: '.note-container',
                 itemSelector: '.note-container',
                 gutter: 0,
                 containerStyle: null
             });
+            setTimeout( function() { msnry.layout(); }, 500);
+            window.msnry = msnry;            
         }
 
         // Initialize all tooltips

@@ -13,8 +13,7 @@
     float: left;
     padding: 0 10px;
     display: block;
-    margin: 0;
-
+    margin: 10px 0;
 }
 
 @media (min-width: 1200px) {

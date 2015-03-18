@@ -2,10 +2,6 @@
  * NOTE CONTAINER
  * ---------------------------------------------------------------------------*/
 
-.note-container {
-    margin-bottom: 20px;
-}
-
 .note-container .panel {
     padding: 0;
     margin: 0;
@@ -91,7 +87,6 @@ button.pinned {
 .form-note-.panel-default,
 .note-container .panel, 
 .note-container .panel-default {
-    padding: 8px;
     -webkit-box-shadow: 0 2px 1px rgba(0,0,0,0.08);
    box-shadow: 0 2px 1px rgba(0,0,0,0.08);  
 }
