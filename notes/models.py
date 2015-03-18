@@ -28,6 +28,12 @@ class Note(models.Model):
                              choices=COLOR_CHOICES,
                              default=COLOR_CHOICES[0][0])
 
+    @staticmethod
+    def parsed_tags(note__content):
+        import re
+        HASHTAG_REGEX = r"\B#(\w*[a-zA-Z]+)\w*"
+        return re.findall(HASHTAG_REGEX, note__content)
+
     class Meta:
         # when ordering by boolean, false comes first (db dependant)
         ordering = ('-is_pinned', 'is_archived', '-updated_at' )
