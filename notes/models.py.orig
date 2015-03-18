@@ -10,6 +10,11 @@ class Note(models.Model):
     is_pinned = models.BooleanField(default=False)
     is_archived = models.BooleanField(default=False)
 
+<<<<<<< HEAD
+=======
+    note_collection = models.ForeignKey('NoteCollection', 
+        null=True, related_name='notes')
+
     COLOR_CHOICES = (
         ('white', 'White'),
         ('red', 'Red'),
@@ -25,6 +30,7 @@ class Note(models.Model):
                              choices=COLOR_CHOICES,
                              default=COLOR_CHOICES[0][0])
 
+>>>>>>> 4c378f5... color choice fields
     def __unicode__(self):
         return '{0}'.format(self.title)
 
