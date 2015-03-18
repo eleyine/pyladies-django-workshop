@@ -25,6 +25,10 @@ class Note(models.Model):
                              choices=COLOR_CHOICES,
                              default=COLOR_CHOICES[0][0])
 
+    class Meta:
+        # when ordering by boolean, false comes first (db dependant)
+        ordering = ('-is_pinned', 'is_archived', '-updated_at' )
+
     def __unicode__(self):
         return '{0}'.format(self.title)
 
