@@ -1,4 +1,4 @@
-(function ($, ux) {
+(function ($, msnry) {
     $( document ).ready(function() {
 
         // Protect against CSRF using a csrf_token
@@ -16,7 +16,6 @@
                   xhr.setRequestHeader("X-CSRFToken", csrftoken);
               }
           },
-          dataType: 'json' // we expect JSON data back from the server
         });
 
 
@@ -61,8 +60,8 @@
             },
             success: function(data, status) {
                 var note = $(elem).closest('.note-container');
-                ux.msnry.remove($(note));
-                ux.msnry.layout();
+                window.msnry.remove($(note));
+                window.msnry.layout();
             },
             error: function(elem, data, status ) {
               $.snackbar({content: 'Your note could not be deleted.' });
@@ -73,16 +72,20 @@
             selector: 'button.archive',
             method: 'POST',
             get_url: function(noteID) {
-                return '/api/v1/notes/' + noteID;
+                return '/' + noteID + '/update/archive';
             },
             get_data: function (elem) {
                 return {'is_archived': !$(elem).hasClass('archived')}
             },
             success: function(elem, data, status) {
                 var note = $(elem).closest('.note-container');
-                ux.msnry.remove($(note));
-                ux.msnry.layout();
-                $.snackbar({content: 'Your note has been archived.' });
+                window.msnry.remove($(note));
+                window.msnry.layout();
+                if (!$(elem).hasClass('archived')) {
+                    $.snackbar({content: 'Your note has been archived.' });
+                }  else {
+                    $.snackbar({content: 'Your note has been unarchived.' });
+                }
 
             },
             error: function(elem, data, status ) {
@@ -94,7 +97,7 @@
             selector: 'button.pin',
             method: 'POST',
             get_url: function(noteID) {
-                return '/' + noteID + '/update';
+                return '/' + noteID + '/update/pin';
             },
             get_data: function (elem) {
                 return {'is_pinned': !$(elem).hasClass('pinned')}
@@ -116,8 +119,8 @@
                 }
                 $(elem).toggleClass('pinned');
                 $(note).toggleClass('pinned');
-                ux.msnry.reloadItems();
-                ux.msnry.layout();
+                window.msnry.reloadItems();
+                window.msnry.layout();
             },
             error: function(elem, data, status ) {
               $.snackbar({content: 'Your note could not be pinned.' });

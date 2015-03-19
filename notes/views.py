@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.views import generic
 
 from notes.models import Note
-from notes.forms import NoteForm
+from notes.forms import NoteForm, ArchiveNoteForm, PinnedNoteForm
  
 class IndexView(generic.ListView):
     template_name = 'notes/index.html'
@@ -56,6 +56,12 @@ class NoteAction(generic.View):
             for error, message in form.errors.iteritems():
                 messages.error(request, 'Invalid field ' + error)
         return HttpResponseRedirect(reverse('index'))
+
+class ArchiveNoteAction(NoteAction):
+    form_class = ArchiveNoteForm
+
+class PinnedNoteAction(NoteAction):
+    form_class = PinnedNoteForm
 
 class EditFormView(generic.DetailView):
     template_name = 'notes/note-form.html'
