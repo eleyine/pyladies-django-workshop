@@ -14,5 +14,6 @@ urlpatterns = patterns('',
     # ex: /create/
     url(r'^create$', views.create_note, name='create_note'),
     # ex: /5/edit
-    url(r'^(?P<note_id>\d+)/edit$', views.edit_note, name='edit_note'),
+    url(r'^(?P<note_id>\d+)/edit$', views.EditFormView.as_view(), name='edit_note'),
+
 )

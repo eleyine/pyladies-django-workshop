@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.views import generic
@@ -30,8 +30,6 @@ class PinnedIndexView(IndexView):
     index_type = 'pinned'
     filter_options = {'is_pinned': True, 'is_archived': False}
 
-def detail(request, note_id):
-    return HttpResponse("You're looking at note {0}.".format(note_id))
 
 def create_note(request):
     if request.method == 'POST':
@@ -44,5 +42,16 @@ def create_note(request):
         messages.success(request, 'Your note has been saved.')
     return HttpResponseRedirect(reverse('index'))
 
-def edit_note(request, note_id):
-    return HttpResponse("You're editing note {0}.".format(note_id))
+class EditFormView(generic.DetailView):
+    template_name = 'notes/note-form.html'
+    model = Note
+
+    def get_object(self):
+        return get_object_or_404(Note, id=self.kwargs['note_id'])
+
+    def get_context_data(self, **kwargs):
+        context = super(generic.DetailView, self).get_context_data(**kwargs)
+        context['colors'] = Note.COLOR_CHOICES
+        context['is_edit_form'] = True
+        return context
+
