@@ -40,7 +40,7 @@ class NoteAction(generic.View):
 
     def post(self, request, *args, **kwargs):
         do_update = 'note_id' in self.kwargs
-        
+
         if do_update:
             note_instance = get_object_or_404(Note, 
                 id=self.kwargs['note_id'])
@@ -55,6 +55,13 @@ class NoteAction(generic.View):
             # not so sure about this
             for error, message in form.errors.iteritems():
                 messages.error(request, 'Invalid field ' + error)
+        return HttpResponseRedirect(reverse('index'))
+
+class DeleteAction(NoteAction):
+    def post(self, request, *args, **kwargs):
+        if 'note_id' in self.kwargs:
+            note_instance = get_object_or_404(Note, id=self.kwargs['note_id'])
+            note_instance.delete()
         return HttpResponseRedirect(reverse('index'))
 
 class ArchiveNoteAction(NoteAction):

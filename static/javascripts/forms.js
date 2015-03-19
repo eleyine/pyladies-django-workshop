@@ -27,7 +27,7 @@
 
                 $(buttonElem).click( function () {
                     var that = this;
-                    $.ajax({
+                    var ajaxQuery = {
                         url : options.get_url(noteID) || '',
                         method : options.method || 'GET',
                         success : function(data, textStatus) {
@@ -38,7 +38,6 @@
                                 $.snackbar({content: data['message'] || 'Success.'});
                             }
                         },
-                        data: options.get_data(that) || {},
                         error: function(data, textStatus ) {
                             if (options.error) {
                                 options.error(that, data, textStatus);
@@ -47,18 +46,23 @@
                                 $.snackbar({content: data['message'] || 'An error has occurred.'});
                             }
                         }
-                    });
+                    };
+                    if (options.get_data) {
+                        console.log('Data!');
+                        ajaxQuery.data = options.get_data(that) || {};
+                    }
+                    $.ajax(ajaxQuery);
                 });
             });
         };
 
         var deleteButton = actionButton({
             selector: 'button.delete',
-            method: 'DELETE',
+            method: 'POST',
             get_url: function(noteID) {
-                return '/api/v1/notes/' + noteID;
+                return '/' + noteID + '/delete';
             },
-            success: function(data, status) {
+            success: function(elem, data, status) {
                 var note = $(elem).closest('.note-container');
                 window.msnry.remove($(note));
                 window.msnry.layout();
