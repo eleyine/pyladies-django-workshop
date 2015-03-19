@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.views import generic
 
 from notes.models import Note
+from notes.forms import NoteForm
  
 class IndexView(generic.ListView):
     template_name = 'notes/index.html'
@@ -30,17 +31,31 @@ class PinnedIndexView(IndexView):
     index_type = 'pinned'
     filter_options = {'is_pinned': True, 'is_archived': False}
 
+class NoteAction(generic.View):
+    form_class = NoteForm
+    template_name = 'notes/index.html'
 
-def create_note(request):
-    if request.method == 'POST':
-        allowed_fields = ('title', 'content', 'color', )
-        create_options = {}
-        for name, value in request.POST.iteritems():
-            if name in allowed_fields:
-                create_options[name] = value
-        Note.objects.create(**create_options)
-        messages.success(request, 'Your note has been saved.')
-    return HttpResponseRedirect(reverse('index'))
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect(reverse('index'))
+
+    def post(self, request, *args, **kwargs):
+        do_update = 'note_id' in self.kwargs
+        
+        if do_update:
+            note_instance = get_object_or_404(Note, 
+                id=self.kwargs['note_id'])
+            form = self.form_class(request.POST, instance=note_instance)
+        else:
+            form = self.form_class(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your note has been saved.')
+        else:
+            # not so sure about this
+            for error, message in form.errors.iteritems():
+                messages.error(request, 'Invalid field ' + error)
+        return HttpResponseRedirect(reverse('index'))
 
 class EditFormView(generic.DetailView):
     template_name = 'notes/note-form.html'

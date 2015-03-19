@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
  
-from notes import views
+from notes import views, forms
  
 urlpatterns = patterns('',
     # ex: /
@@ -9,10 +9,9 @@ urlpatterns = patterns('',
     url(r'^archive/$', views.ArchiveIndexView.as_view(), name='archive'),
     # ex: /pinned/
     url(r'^pinned/$', views.PinnedIndexView.as_view(), name='pinned'),
-    # ex: /5/
-    url(r'^(?P<note_id>\d+)/$', views.detail, name='detail'),
     # ex: /create/
-    url(r'^create$', views.create_note, name='create_note'),
+    url(r'^create$', views.NoteAction.as_view(), name='create_note'),
+    url(r'^(?P<note_id>\d+)/update$', views.NoteAction.as_view(), name='update_note'),
     # ex: /5/edit
     url(r'^(?P<note_id>\d+)/edit$', views.EditFormView.as_view(), name='edit_note'),
 
