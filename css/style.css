@@ -6,6 +6,15 @@
     font-weight: bold; }
     .reveal .slides section p.medium-size {
       font-size: 0.8em; }
+  .reveal .slides section q {
+    font-style: normal; }
+  .reveal .slides section blockquote {
+    border: 0;
+    box-shadow: none;
+    border-left: 0.5em solid #dededd;
+    width: 100%;
+    font-style: normal;
+    font-weight: 200; }
   .reveal .slides section .right-align {
     text-align: right !important; }
   .reveal .slides section span.medium-size {
@@ -26,7 +35,7 @@
     width: 100%; }
   .reveal .slides section ul, .reveal .slides section ol {
     list-style: none; }
-  .reveal .slides section section img {
+  .reveal .slides section img {
     border: 0;
     box-shadow: none;
     background: transparent; }
@@ -75,6 +84,8 @@ pre code .line {
   display: block;
   width: 100%;
   margin-bottom: 2em; }
+  .reveal div.github.small-size {
+    font-size: 0.6em; }
   .reveal div.github .post, .reveal div.github .pre {
     font-family: "Consolas";
     font-size: 0.9em;
@@ -182,7 +193,7 @@ pre code .line {
   font-size: 0.8em;
   font-weight: 300; }
 
-.reveal .slides section.views .fragment.disappear.current-fragment, .reveal .slides section.firstView .fragment.disappear.current-fragment {
+.reveal .slides section.smallFragments .fragment.disappear.current-fragment, .reveal .slides section.createNote .fragment.disappear.current-fragment, .reveal .slides section.views .fragment.disappear.current-fragment, .reveal .slides section.firstView .fragment.disappear.current-fragment, .reveal .slides section.genericViews .fragment.disappear.current-fragment {
   font-size: 0.7em; }
 
 .reveal .slides section .fragment.disappear.current-fragment.small-size {

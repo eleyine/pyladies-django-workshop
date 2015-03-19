@@ -16,6 +16,19 @@
         }
     }
 
+    q {
+        font-style: normal;
+    }
+
+    blockquote {
+        border:0;
+        box-shadow: none;
+        border-left: .5em solid #dededd;
+        width: 100%;
+        font-style: normal;
+        font-weight: 200;
+    }
+
     .right-align {
         text-align: right !important;
     }
@@ -48,7 +61,7 @@
         list-style: none;
     }
 
-    section img {
+    img {
         border: 0;
         box-shadow: none;
         background: transparent;
@@ -124,6 +137,9 @@ pre code .line {
     display: block;
     width: 100%;
     margin-bottom: 2em;
+    &.small-size {
+        font-size: 0.6em;
+    }
     .post,
     .pre {
         font-family: "Consolas";
@@ -311,8 +327,11 @@ $django0: #C9F0DD;
         font-weight: 300;
     }
 }
+.reveal .slides section.smallFragments .fragment.disappear.current-fragment,
+.reveal .slides section.createNote .fragment.disappear.current-fragment,
 .reveal .slides section.views .fragment.disappear.current-fragment,
-.reveal .slides section.firstView .fragment.disappear.current-fragment {
+.reveal .slides section.firstView .fragment.disappear.current-fragment,
+.reveal .slides section.genericViews .fragment.disappear.current-fragment {
   font-size: 0.7em;
 }
 

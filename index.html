@@ -119,7 +119,7 @@
 					</div>
 				</section>
 				<!-- <slide> Setup -->
-					<section data-background="#8c9eff" class="center lightPurple">
+					<section class="center">
 						<h2>Detailed Instructions</h2>
 						<div class="break"></div>
 						<b><a href="https://github.com/eleyine/pyladies-django-workshop">github.com/eleyine/pyladies-django-workshop</a></b>
@@ -487,7 +487,7 @@ notes/
 					</section>
 				</section>
 				<!-- <slide> Milestones -->
-				<section class="milestones">
+				<!-- <section class="milestones">
 					<h3>Agenda</h3>
 					<div class="pane-container">
 						<div class="pane pane-1">
@@ -511,7 +511,7 @@ notes/
 							</ol>
 						</div>
 					</div>
-				</section>
+				</section> -->
 				<section class="models center">
 					<h3>What models do we need for our app?</h3>
 					<p class="fragment"><code>Note</code></p>
@@ -1027,7 +1027,478 @@ def index(request):
 				<h1> Add some of that CSS+JS &lt;3</h1>
 				<p><code>git reset --hard prettyIndex</code></p>
 				<span class="fragment">(yep, nothing more)</span>
+				<p class="fragment"><code>$ python manage.py generatenotes &lt;number&gt;</code> </br>to generate notes</p>
+
 				</section>
+				<section class="center">
+					<h1>Forms</h1>
+					<p>Let's make some notes</p>
+				</section>
+				<section>
+<h5>Let's add a Form Template</h5>
+<p><small>Update templates/notes/index.html to include the form (this is a markup-simplified version)</small></p>
+<p><code>git reset --hard noteForm</code></p>
+<pre><code class="html code-focus" data-trim><xmp>
+<div class="container main-content {% if search %}search{% endif %}">
+    <div id="container-wrapper">
+        {% if search %}
+            <!-- search stuff -->
+        {% else %}
+            {% include "notes/note-form.html" %}
+        {% endif %}
+
+        <div id="container">
+            {% for note in notes %}
+                {% include "notes/note-container.html" %}
+            {% endfor %}
+        </div>
+    </div> <!-- /#container-wrapper -->
+</div><!-- /main content -->
+</xmp>
+					</code></pre>
+<span class="fragment disappear" data-code-focus="7"></span>
+				</section>
+				<section>
+<h5>Form Template</h5>
+<p><small>Edit templates/notes/note-form.html (this is a markup-simplified version)</small></p>
+<p><code>git reset --hard noteForm</code></p>
+<pre><code class="html code-focus" data-trim><xmp>
+<div class="form-wrapper">
+    <form action="{% url 'create_note' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+        <input name="title" placeholder="Title"/>
+        <textarea name="content" placeholder="Add note" ></textarea>
+        {% for color in colors %}
+                <input type="radio" name="color" value="{{ color.0 }}" 
+                {% if forloop.first %} checked {% endif %}/>
+        {% endfor %}
+        <button type="submit" class="done-button" value="submit">Done</button>
+        </fieldset>
+    </form>
+</div>
+</xmp>
+					</code></pre>
+<span class="fragment disappear" data-code-focus="3"></span>
+<span class="fragment disappear" data-code-focus="4"></span>
+<span class="fragment disappear" data-code-focus="6"></span>
+<span class="fragment disappear" data-code-focus="10"></span>
+				</section>
+				<section class="createNote">
+<div class="github" data-github-pre="noteForm" data-github-post="createNoteView"></div>
+<h5>Create Note View</h5>
+<pre><code class="python code-focus" data-trim>
+from django.http import HttpResponseRedirect
+from django.contrib import messages
+
+def create_note(request):
+    if request.method == 'POST':
+        allowed_fields = ('title', 'content', 'color', )
+        create_options = {}
+        for name, value in request.POST.iteritems():
+            if name in allowed_fields:
+                create_options[name] = value
+        Note.objects.create(**create_options)
+        messages.success(request, 'Your note has been saved.')
+    return HttpResponseRedirect(reverse('index'))
+</code></pre>
+<div class="break"></div>
+<span class="fragment disappear" data-code-focus="5">Form data is usually sent via <b>POST</b> because the <b>information is sensitive</b> and/or <b>not to be limited by size</b>. Here, we enfore note creation to be done via POST.</span>
+<span class="fragment disappear" data-code-focus="8"><b><code>request.POST</code></b> is a <b>dictionary-like</b> object that lets you access submitted data by key name. <code>request.POST</code> values are <b>always strings</b> (so careful when dealing with integers, booleans etc.)</span>
+<span class="fragment disappear" data-code-focus="12">Nifty built-in messages API.</span>
+<span class="fragment disappear" data-code-focus="13">You should always return an <code>HttpResponseRedirect</code>after successfully dealing with POST data. <code>HttpResponseRedirect</code> takes a single argument: the url to redirect to.</span>
+<span class="fragment disappear" data-code-focus="13"><code>reverse()</code> helps avoid having to hardcode a URL in the view function, uses the <b>name attribute we specified in notes/urls.py</b> instead.</span>
+<span class="fragment disappear" data-code-focus="11"><b>Yikes! We'll see better ways to do this.</b>
+				</section>
+				<section class="center">
+				<p><code>git reset --hard createNoteView</code></p>
+				<p><a href="http://localhost:8000/">http://localhost:8000/</a></p>
+				<h3>All good?</h3>
+				</section>
+				<section>				
+				<p>Ideally, we want tags to be created/updated and saved at the same time as Note content.</p>
+				<h1 class="fragment">Use signals!</h1>
+				<blockquote class="fragment">Signals allow certain <i>senders</i> <b>[Note]</b> to notify a set of <i>receivers</i> <b>[updateTags]</b> that some action has taken place. They’re especially useful when many pieces of code may be interested in the same events <b>[Note content creation/update]</b>.</blockquote>
+				</section>
+				<section class="createNote">
+<div class="github small-size" data-github-pre="preSignals" data-github-post="solSignals"></div>
+<p><small>Edit notes/signals.py</small></p>
+<pre><code class="python code-focus" data-trim>
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from notes.models import Note, Tag
+
+@receiver(post_save, sender=Note)
+def update_created_note_tags(sender, instance, created=False, **kwargs):
+    note_instance = instance
+    if created:
+        tag_instances = []
+        for t in Note.parsed_tags(note_instance.content):
+            tag_instance, created = Tag.objects.get_or_create(keyword=t)
+            tag_instances.append(tag_instance)
+
+        note_instance.tags.add(*tag_instances)
+</code></pre>
+<div class="break"></div>
+<span class="fragment disappear" data-code-focus="8">If Note is created, create associated Tags.</span>
+<span class="fragment disappear" data-code-focus="5">By using this decorator, we register a <i>receiver</i> function update_created_note_tags() that gets callled each time a Note object is saved (<i>after</i> it is saved)</span>
+<span class="fragment disappear" data-code-focus="1">Other signals include pre_save, m2m_changed, pre_delete, pre_migrate etc.</span>
+<span class="fragment disappear">What if note content is updated? What if some tags are no longer associated with any notes? This is <b>left as an exercise.</b> </br>(solution in <code>solSignals</code>, <code>python manage.py test</code> in <code>preSignals</code> as guide)</span>
+
+				</section>
+				<section class="center">
+				<p><code>git reset --hard solSignals</code></p>
+				<p><a href="http://localhost:8000/">http://localhost:8000/</a></p>
+				</section>
+				<section class="center">
+					<h1>Generic Views</h1>
+				</section>
+				<section class="center">
+					<h3>Motivation</h3>
+					<div class="fragment disappear">
+					<p>The short answer:</p> 
+					<h1>Less is Better</h1>
+					</div>
+					<div class="fragment disappear">
+					<span>There is a plethora of <b>common web development patterns.</b> Generic views abstract common patterns to the point where <b>you don’t even need to write Python code to write an app.</b></span>
+					</div>
+					<div class="fragment disappear">
+					<span> e.g. The code for <code>index</code>, <code>archive_index</code> and <code>pinned_index</code> is essentially the same. It involves (a) getting data from a database according to a parameter, (b) loading a template and (c) returning the rendered template</span>
+					</div>
+					<div class="break"></div>
+					<h1 class="fragment">DRY</h1>
+				</section>
+				<section class="genericViews">
+<div class="github" data-github-pre="preGenericViews" data-github-post="solGenericViews"></div>
+<h5>Generic Views</h5>
+<p>We are going to refactor the following code in <code>notes/views.py</code></p>
+<pre><code class="python" data-trim>
+def index(request):
+    context = {
+        'notes': Note.objects.all(),
+        'colors': Note.COLOR_CHOICES
+    }
+    return render(request, 'notes/index.html', context)
+
+def archive_index(request):
+    return HttpResponse("You're looking at the archive.")
+
+def pinned_index(request):
+    return HttpResponse("You're looking at your pinned notes.")
+</code></pre>
+				</section>
+				<section class="genericViews">
+<div class="github" data-github-pre="preGenericViews" data-github-post="solGenericViews"></div>
+<h5>Generic Views</h5>
+<p><small>Edit notes/urls.py</small></p>
+<pre><code class="python" data-trim>
+urlpatterns = patterns(
+    # ...,
+    url(r'^$', views.IndexView.as_view(), name='index'),
+    # ex: /archive.
+    url(r'^archive/$', views.ArchiveIndexView.as_view(), name='archive'),
+    # ex: /pinned/
+    url(r'^pinned/$', views.PinnedIndexView.as_view(), name='pinned'),
+    # ...
+)
+</code></pre>
+<div class="break"></div>
+<span class="fragment disappear">Class-based views allow us to reuse code and harness inheritance and mixins.</span>
+<span class="fragment disappear">Remember, <code>url()</code> takes a callable as a second argument that takes a request and returns a response.</span>
+<span class="fragment disappear">In Django, all Class-based views inherit from <code>View</code> class which handles linking to the view into the URLs through <code>as_view()</code>. </span>
+<span class="fragment disappear">Arguments passed to <code>as_view()</code>override attributes set on the class. </br>Example: if you simply want to render a tempate, use: <code>TemplateView.as_view(template_name="about.html")</code></span>
+				</section>
+				<section class="genericViews">
+<div class="github small-size" data-github-pre="preGenericViews" data-github-post="solGenericViews"></div>
+<p><small>Edit notes/views.py</small></p>
+<pre><code class="python code-focus" data-trim>
+from django.views import generic
+ 
+class IndexView(generic.ListView):
+    template_name = 'notes/index.html'
+    context_object_name = 'notes'
+    index_type = 'index'
+    filter_options = {'is_archived': False}
+
+    def get_queryset(self):
+        """Return all non archived notes."""
+        return Note.objects.filter(**self.filter_options)
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['colors'] = Note.COLOR_CHOICES
+        context['index_type'] = self.index_type
+        return context
+</code></pre>
+<div class="break"></div>
+<span class="fragment disappear" data-code-focus="3"><code>ListView</code> is a generic view for pages representing a list of objects.</span>
+<span class="fragment disappear small-size" data-code-focus="3">It inherits methos and attributes from <code>MultipleObjectTemplateResponseMixin</code>,<code> TemplateResponseMixin, BaseListView, MultipleObjectMixin, View</code></span>
+<span class="fragment disappear" data-code-focus="3">The Method flowchart for this view is well-documented, but for our purposes, we only need to override two methods.</span>
+<span class="fragment disappear" data-code-focus="9"><code>get_queryset()</code> Get the list of items for this view. Must be an iterable or queryset.</span>
+<span class="fragment disappear" data-code-focus="13"><code>get_context_data()</code> Returns context data for displaying the list of objects.</span>
+<span class="fragment disappear" data-code-focus="5"><code>context_object_name</code>: variable name that will be used to contain the list of data that this view is manipulating	(defaults to <code>note_list</code>)</span>
+<span class="fragment disappear" data-code-focus="7">Attribute I specified to aid in filtering and which will be overridden in the other index views.</span>
+<span class="fragment disappear" data-code-focus="6">Attribute I specified for templating purposes (determining which tab is active in the sidebar).</span>
+				</section>
+				<section class="genericViews">
+<div class="github" data-github-pre="preGenericViews" data-github-post="solGenericViews"></div>
+<h5>Generic Views</h5>
+<p><small>Edit notes/views.py</small></p>
+<pre><code class="python" data-trim data-noescape>
+class ArchiveIndexView(IndexView):
+    <span class="fragment">index_type = 'archive'</span>
+    <span class="fragment">filter_options = {'is_archived': True}</span>
+
+class PinnedIndexView(IndexView):
+    <span class="fragment">index_type = 'pinned'</span>
+    <span class="fragment">filter_options = {'is_pinned': True, 'is_archived': False}</span>
+</code></pre>
+<div class="break"></div>
+<span class="fragment disappear">See? We barely wrote any code for these additional views.</span>
+<p class="fragment">See them in action at <a href="http://localhost:8000/" target="_blank">http://localhost:8000/</a></p>
+				</section>
+				<section class="center">
+					<h1>Django Forms</h1>
+				</section>
+				<section class="genericForms smallFragments">
+<div class="github small-size" data-github-pre="preGenericForm" data-github-post="solGenericForm"></div>
+<h5>Generic Forms</h5>
+<p class="medium-size">First we need a DetailView to display a form that is specific to a note. This is required to pre-fill fields and pass on the note id. </p>
+<span class="small-size">Edit <code>notes/views.py</code></span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+class EditFormView(generic.DetailView):
+    template_name = 'notes/note-form.html'
+    model = Note
+
+    def get_object(self):
+        return get_object_or_404(Note, id=self.kwargs['note_id'])
+
+    def get_context_data(self, **kwargs):
+        context = super(generic.DetailView, self).get_context_data(**kwargs)
+        context['colors'] = Note.COLOR_CHOICES
+        context['is_edit_form'] = True
+        return context
+</code></pre>
+				</section>
+				<section class="genericForms smallFragments">
+<div class="github small-size" data-github-pre="preGenericForm" data-github-post="solGenericForm"></div>
+<span class="small-size">Edit <code>notes/urls.py</code></span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+urlpatterns = patterns('',
+    # ...
+    url(r'^(?P&lt;note_id&gt;\d+)/edit$', views.EditFormView.as_view(), name='edit_note'),
+)
+</code></pre>
+<div class="break"></div>
+<div class="fragment">
+<span class="small-size">Behind the scenes, in </code>static/javascripts/forms.js</code></span>
+<div class="break"></div>
+<pre class="small-size"><code class="javascript" data-trim>
+$(buttonElem).click( function () {
+    BootstrapDialog.show({
+        message: function(dialog) {
+            return $('<div></div>').load(dialog.getData('pageToLoad'));
+        },
+        data: {
+            'pageToLoad': '/' +  noteID + '/edit'
+        }
+    });
+});
+</code></pre>
+</div>
+				</section>
+				<section class="genericForms smallFragments">
+<div class="github small-size" data-github-pre="preGenericForm" data-github-post="solGenericForm"></div>
+<span class="small-size">Edit <code>notes/forms.py</code> (create if necessary)</span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+from django.forms import ModelForm
+from notes.models import Note
+
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ('title', 'content', 'color')
+</code></pre>
+<div class="break"></div>
+<div class="fragment">
+<span class="small-size">Edit <code>notes/views.py</code></span>
+<div class="break"></div>
+<pre class="small-size"><code class="python" data-trim>
+class NoteAction(generic.View):
+    form_class = NoteForm
+    template_name = 'notes/index.html'
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect(reverse('index'))
+
+    def post(self, request, *args, **kwargs):
+    	# handle form data
+</code></pre>
+</div>
+				</section>
+				<section class="genericForms smallFragments">
+<div class="github small-size" data-github-pre="preGenericForm" data-github-post="solGenericForm"></div>
+<span class="small-size">Edit <code>notes/views.py</code> </span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+class NoteAction(generic.View):
+    form_class = NoteForm
+    template_name = 'notes/index.html'
+
+    def post(self, request, *args, **kwargs):
+        do_update = 'note_id' in self.kwargs
+        
+        if do_update:
+            note_instance = get_object_or_404(Note, 
+                id=self.kwargs['note_id'])
+            form = self.form_class(request.POST, instance=note_instance)
+        else:
+            form = self.form_class(request.POST)
+
+        # .. validate form and save if valid (TODO)
+        return HttpResponseRedirect(reverse('index'))
+</code></pre>
+				</section>
+				<section class="genericForms smallFragments">
+<div class="github small-size" data-github-pre="preGenericForm" data-github-post="solGenericForm"></div>
+<span class="small-size">Edit <code>notes/views.py</code></span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+class NoteAction(generic.View):
+    form_class = NoteForm
+    template_name = 'notes/index.html'
+
+    def post(self, request, *args, **kwargs):
+        # ... continuing from where we left off
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your note has been saved.')
+        else:
+            for error, message in form.errors.iteritems():
+                messages.error(request, 'Invalid field ' + error)
+        return HttpResponseRedirect(reverse('index'))
+</code></pre>
+				</section>
+				<section class="genericForms smallFragments">
+<div class="github small-size" data-github-pre="preMiniForm" data-github-post="solMiniForm"></div>
+<span>Just like the IndexViews, we can now use that for our mini 'Archive' and 'Pin' Forms. (<code>notes/forms.py</code>)</span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+class ArchiveNoteForm(NoteForm):
+    class Meta:
+        model = Note
+        fields = ('is_archived',)
+
+class PinnedNoteForm(NoteForm):
+    class Meta:
+        model = Note
+        fields = ('is_pinned',)
+</code></pre>
+<div class="break"></div>
+<blockquote>If you specify fields or exclude when creating a form with ModelForm, then the fields that are not in the resulting form will not be set by the form's save() method.</blockquote>  
+</section> 
+<section>
+<span class="small-size">Then add urls to <code>notes/urls.py</code></span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+urlpatterns = patterns('',
+    url(r'^(?P&lt;note_id&gt;\d+)/update$', views.NoteAction.as_view(), name='update_note'),
+    url(r'^(?P&lt;note_id&gt;\d+)/update/pin$', views.PinnedNoteAction.as_view(), name='update_note_pin'),
+    url(r'^(?P&lt;note_id&gt;\d+)/update/archive$', views.ArchiveNoteAction.as_view(), name='update_note_archive'),
+)
+</code></pre>
+<div class="break"></div>
+<span class="small-size">Finally, change <code>notes/views.py</code></span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+class ArchiveNoteAction(NoteAction):
+    form_class = ArchiveNoteForm
+
+class PinnedNoteAction(NoteAction):
+    form_class = PinnedNoteForm
+</code></pre>
+<div class="break"></div>
+<p class="fragment">Voila <a href="http://localhost:8000/" target="_blank">http://localhost:8000/</a></p>
+				</section>
+				<section class="center">
+				<h1>Search Notes by Tags</h1>
+				<p>Any ideas?</p>
+				</section>
+<section class="genericForms smallFragments">
+<div class="github small-size" data-github-pre="preSearch" data-github-post="solSearch"></div>
+<span class="small-size">Let's start by implementing our search index</span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+urlpatterns = patterns('',
+    # ...
+    url(r'^tags/$', 
+        views.TagJsonListView.as_view(), name='search_notes'),
+    url(r'^search/tag/(?P&lt;tag_keyword&gt;\w+)$', 
+        views.SearchIndexView.as_view(), name='search_notes'),
+)
+</code></pre>
+</section>
+<section>
+<div class="break"></div>
+<span class="small-size">The, change <code>notes/views.py</code></span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+class SearchIndexView(IndexView):
+    index_type = 'search'
+
+    def get_queryset(self):
+        print self.kwargs
+        if 'tag_keyword' in self.kwargs:
+            return Note.objects.filter(
+                tags__keyword__icontains=self.kwargs['tag_keyword'])
+        else:
+            messages.error(request, 'Invalid Search')
+            return []
+</code></pre>
+</section>
+<section>
+<div class="github small-size" data-github-pre="preSearch" data-github-post="solSearch"></div>
+<span class="small-size">To autocomplete the searchbar, we're send an ajax request to populate tag keywords. The request expects a JsonResponse.</span>
+<div class="break"></div>
+<pre><code class="python" data-trim>
+from django.http import JsonResponse
+
+class TagJsonListView(generic.TemplateView):
+
+    def render_to_response(self, context, **response_kwargs):
+        keywords = [{'name': t.keyword} for t in Tag.objects.all()]
+        return JsonResponse(keywords, safe=False)
+</code></pre>
+<div class="break"></div>
+<p class="fragment">We're finally done! <a href="http://localhost:8000/" target="_blank">http://localhost:8000/</a></p>
+				</section>
+				<section class="center">
+				<h1>Special Mentions</h1>
+				<ul>
+				    <li>Django REST Framework: To build a RESTful API</li>
+				    <li>Django Celery: Task Scheduling</li>
+				    <li>Django Debug Toolbar</li>
+				    <li>Django Extensions</li>
+				    <li>Angular-Material / Polymer if you like Material Design </li>
+				</ul>
+				</section>
+				<section class="center">
+				<h1>Credits</h1>
+				<ul>
+				    <li>https://www.djangoproject.com/</li>
+				    <li><a href="https://thinkster.io/django-angularjs-tutorial/">https://thinkster.io/django-angularjs-tutorial/</a> Awesome tutorial on how to integrate Django with AngularJS (heavy use of Django REST framework), highly recommend it.</li>
+				    <li>Django tutorial: https://speakerdeck.com/mpirnat/web-development-with-python-and-django-2014</li>
+				</ul>
+				</section>
+				<section class="center">
+					<h1>Thanks! <small style="color:#ccc; text-transform: none;">Google, Francoise and Pyladies</small></h1>
+					<h3 style="text-transform:capitalize">@eleyine</h3>
+				</section>
+
 				</div>
 			</div>
 		</div>
@@ -1041,7 +1512,7 @@ def index(request):
 				progress: true,
 				history: true,
 				center: false,
-				transition: 'convex', // none/fade/slide/convex/concave/zoom
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
 				// Optional reveal.js plugins
 				dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
