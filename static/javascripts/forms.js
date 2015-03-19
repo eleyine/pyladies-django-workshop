@@ -94,7 +94,7 @@
             selector: 'button.pin',
             method: 'POST',
             get_url: function(noteID) {
-                return '/api/v1/notes/' + noteID;
+                return '/' + noteID + '/update';
             },
             get_data: function (elem) {
                 return {'is_pinned': !$(elem).hasClass('pinned')}
@@ -144,35 +144,6 @@
                         'pageToLoad': '/' +  noteID + '/edit'
                     },
                     backdrop: true,
-                    buttons: [{
-                        label: ' Update',
-                        cssClass: 'btn-primary',
-                        autospin: true,
-                        action: function(dialogRef){
-                            $.ajax({
-                               type: "POST",
-                               url: 'api/v1/notes/' + noteID,
-                               data: $("#editForm").serialize(), // serializes the form's elements.
-                               success: function(data)
-                               {
-                                // just because it's pretty, don't judge
-                                setTimeout(function(){
-                                   dialogRef.close(); 
-                                   $.snackbar({content: 'Your note has been updated.' });
-                                }, 1000);
-                               },
-                               error: function(data) {
-                                   dialogRef.close(); 
-                                   $.snackbar({content: 'Note could not be updated.' });
-                               }
-                            });
-                        }
-                    }, {
-                        label: 'Close',
-                        action: function(dialogRef){
-                            dialogRef.close();
-                        }
-                    }]
                 });
             });
         });

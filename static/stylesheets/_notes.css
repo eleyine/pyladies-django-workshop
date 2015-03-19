@@ -27,7 +27,6 @@
     margin: 0;
 }
 
-
 .note-container .panel-footer {
     background-color: rgba(0,0,0,0.1);
     visibility: hidden;
@@ -43,6 +42,10 @@
 
 button.pinned {
  visibility:visible;
+}
+
+.note-container .white.panel .panel-footer button {
+    color: #ccc;
 }
 
 .white button.pinned i {
@@ -139,6 +142,20 @@ button.pinned {
 
 #editForm {
     z-index: 100;
+}
+
+#editForm .panel-footer {
+    padding:0;
+    background: transparent;
+    border: 0;
+}
+
+#editForm .modal-header,
+#editForm .modal-body {
+    padding: 0;
+}
+#editForm .bootstrap-dialog-title {
+    visibility: hidden;
 }
 
 

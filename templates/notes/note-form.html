@@ -1,18 +1,16 @@
-<div class="row">
-<div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-
-    <form class="panel panel-default form-horizontal form-note" action="{% url 'create_note' %}" method="post">
+<form class="{% if not is_edit_form %}panel panel-default{% endif %} form-horizontal form-note" {% if is_edit_form %}id="editForm" action="{% url 'update_note' note.id %}" {% else %} action="{% url 'create_note' %}"{% endif %} method="post">
         {% csrf_token %}
         <fieldset>
         <div class="panel-body">
             <div class="form-group">
                 <div class="col-lg-12">
-                    <input class="form-control" id="inputTitle" placeholder="Title" name="title" autocomplete="off">
+                    <input class="form-control" id="inputTitle" placeholder="Title" name="title" autocomplete="off"
+                    {% if is_edit_form %} value="{{note.title}}" {% endif %}>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-12">
-                    <textarea class="form-control" rows="1" id="inputContent" placeholder="Add note" name="content"></textarea>
+                    <textarea class="form-control" rows="1" id="inputContent" placeholder="Add note" name="content">{% if is_edit_form %}{{note.content}}{% endif %}</textarea>
                 </div>
             </div>
             {% if colors %}
@@ -21,7 +19,11 @@
                 {% for color in colors %}
                     <div class="radio radio-primary {{ color.0 }}">
                         <label>
-                            <input type="radio" name="color" id="{{ color.0 }}Button" value="{{ color.0 }}" {% if forloop.first %} checked {% endif %}>
+                            <input type="radio" name="color" id="{{ color.0 }}Button" value="{{ color.0 }}"
+                            {% if is_edit_form and color == note.color%} checked 
+                            {% else %}
+                                {% if forloop.first %} checked {% endif %}
+                            {% endif %}>
                             <span class="circle"></span>
                             <span class="check"></span>
                         </label>
@@ -38,6 +40,4 @@
             </div>
         </div>
         </fieldset>
-    </form>
-</div>
-</div>
+</form>
