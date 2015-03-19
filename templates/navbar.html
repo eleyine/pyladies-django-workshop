@@ -1,8 +1,8 @@
 <div class="navmenu navmenu-default navmenu-fixed-left offcanvas" style="">
   <ul class="nav navmenu-nav">
-    <li class="active"><a href="/"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Notes</a></li>
-    <li><a href="/pinned"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Pinned</a></li>
-    <li><a href="/archive"><span class="glyphicon mdi-content-archive" aria-hidden="true"></span> Archive</a></li>
+    <li {% if index_type == 'index' %}class="active"{% endif %}><a href="/"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Notes</a></li>
+    <li {% if index_type == 'pinned' %}class="active"{% endif %}><a href="/pinned"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Pinned</a></li>
+    <li {% if index_type == 'archive' %}class="active"{% endif %}><a href="/archive"><span class="glyphicon mdi-content-archive" aria-hidden="true"></span> Archive</a></li>
   </ul>
 </div>
 <div class="navbar navbar-default navbar-fixed-top" style="">

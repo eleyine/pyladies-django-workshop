@@ -26,7 +26,7 @@
                         {% if search %}
                             <h3>No matching notes.</h3>
                         {% else %}
-                            <h3>Your {% if archive %}archived{% endif %} notes will appear here.</h3>
+                            <h3>Your {% if index_type == 'archive' %}archived{% elif index_type == 'pinned' %}pinned{% endif %} notes will appear here.</h3>
                         {% endif %}
                     </div>
                 </div>
