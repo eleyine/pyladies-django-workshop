@@ -4,11 +4,11 @@ from notes import views
  
 urlpatterns = patterns('',
     # ex: /
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.IndexView.as_view(), name='index'),
     # ex: /archive.
-    url(r'^archive/$', views.archive_index, name='archive'),
+    url(r'^archive/$', views.ArchiveIndexView.as_view(), name='archive'),
     # ex: /pinned/
-    url(r'^pinned/$', views.pinned_index, name='pinned'),
+    url(r'^pinned/$', views.PinnedIndexView.as_view(), name='pinned'),
     # ex: /5/
     url(r'^(?P<note_id>\d+)/$', views.detail, name='detail'),
     # ex: /create/

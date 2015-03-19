@@ -2,21 +2,33 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.views import generic
 
 from notes.models import Note
  
-def index(request):
-    context = {
-        'notes': Note.objects.all(),
-        'colors': Note.COLOR_CHOICES
-    }
-    return render(request, 'notes/index.html', context)
+class IndexView(generic.ListView):
+    template_name = 'notes/index.html'
+    context_object_name = 'notes'
+    index_type = 'index'
+    filter_options = {'is_archived': False}
 
-def archive_index(request):
-    return HttpResponse("You're looking at the archive.")
+    def get_queryset(self):
+        """Return all non archived notes."""
+        return Note.objects.filter(**self.filter_options)
 
-def pinned_index(request):
-    return HttpResponse("You're looking at your pinned notes.")
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['colors'] = Note.COLOR_CHOICES
+        context['index_type'] = self.index_type
+        return context
+
+class ArchiveIndexView(IndexView):
+    index_type = 'archive'
+    filter_options = {'is_archived': True}
+
+class PinnedIndexView(IndexView):
+    index_type = 'pinned'
+    filter_options = {'is_pinned': True, 'is_archived': False}
 
 def detail(request, note_id):
     return HttpResponse("You're looking at note {0}.".format(note_id))
