@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.views import generic
 
-from notes.models import Note
+from notes.models import Note, Tag
 from notes.forms import NoteForm, ArchiveNoteForm, PinnedNoteForm
  
 class IndexView(generic.ListView):
@@ -30,6 +30,24 @@ class ArchiveIndexView(IndexView):
 class PinnedIndexView(IndexView):
     index_type = 'pinned'
     filter_options = {'is_pinned': True, 'is_archived': False}
+
+class SearchIndexView(IndexView):
+    index_type = 'search'
+
+    def get_queryset(self):
+        print self.kwargs
+        if 'tag_keyword' in self.kwargs:
+            return Note.objects.filter(
+                tags__keyword__icontains=self.kwargs['tag_keyword'])
+        else:
+            messages.error(request, 'Invalid Search')
+            return []
+
+class TagJsonListView(generic.TemplateView):
+
+    def render_to_response(self, context, **response_kwargs):
+        keywords = [{'name': t.keyword} for t in Tag.objects.all()]
+        return JsonResponse(keywords, safe=False)
 
 class NoteAction(generic.View):
     form_class = NoteForm

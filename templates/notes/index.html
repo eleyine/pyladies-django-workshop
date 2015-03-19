@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container main-content {% if search %}search{% endif %}">
+<div class="container main-content {% if index_type == 'search' %}search{% endif %}">
     <div class="row">
     <div id="container-wrapper">
-    {% if search %}
+    {% if index_type == 'search' %}
       <div class="alert alert-info search" role="alert">
         <a href="/" class="close pull-left" data-dismiss="alert" aria-label="Close" data-toggle="tooltip" data-placement="bottom" title="Clear search"><span aria-hidden="true">×</span></a> 
         <span> {{ notes | length }} matching note{{notes | length | pluralize}}</span>
@@ -27,7 +27,7 @@
                         <div class="icon">
                             <i class="mdi-editor-insert-drive-file"></i>
                         </div>
-                        {% if search %}
+                        {% if index_type == 'search' %}
                             <h3>No matching notes.</h3>
                         {% else %}
                             <h3>Your {% if index_type == 'archive' %}archived{% elif index_type == 'pinned' %}pinned{% endif %} notes will appear here.</h3>

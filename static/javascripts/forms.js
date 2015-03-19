@@ -155,6 +155,19 @@
             });
         });
 
+        // SEARCH
+        $.ajax({
+            url : '/tags' , 
+            method : 'GET', 
+            success:  function(data) { 
+                $("#searchInput").typeahead({ 
+                    source: data,
+                    afterSelect: function(item) {
+                        window.location = '/search/tag/' + item.name;
+                    }
+                });
+            }
+        });
 
     });
 })($, window.msnry);

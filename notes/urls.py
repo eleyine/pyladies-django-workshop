@@ -19,4 +19,10 @@ urlpatterns = patterns('',
     # ex: /5/edit
     url(r'^(?P<note_id>\d+)/edit$', views.EditFormView.as_view(), name='edit_note'),
 
+    # search
+    url(r'^tags/$', 
+        views.TagJsonListView.as_view(), name='search_notes'),
+    url(r'^search/tag/(?P<tag_keyword>\w+)$', 
+        views.SearchIndexView.as_view(), name='search_notes'),
+
 )
